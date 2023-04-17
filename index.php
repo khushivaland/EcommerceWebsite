@@ -2,7 +2,7 @@
 
 $servername = "locakhost";
 $username = "root";
-$dbname = "signup_db";
+$dbname = "SIGNUP";
 $password = "";
   
 $conn = mysqli_connect($servername, $username, $dbname, $password);
