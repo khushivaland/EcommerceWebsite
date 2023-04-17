@@ -15,11 +15,14 @@ function validation(){
         document.getElementById("result").innerHTML="Enter your Password*";
         return false;
     }
-
+    
     if(document.Formfill.Password.value.length < 8){
         document.getElementById("result").innerHTML="Password must be 8-digits";
         return false;
     }
+
+    
+
     
     if(document.Formfill.CPassword.value==""){
         document.getElementById("result").innerHTML="Enter Confirm Password*";
@@ -33,9 +36,10 @@ function validation(){
 
     if(document.Formfill.Password.value == document.Formfill.CPassword.value){
         popup.classList.add("open-slide");
-        return false;
+        return true;
     }
 
+    return true;
 }
 var popup = document.getElementById('popup');
 function CloseSlide(){
