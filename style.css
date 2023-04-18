@@ -124,7 +124,7 @@ input::placeholder{
     box-shadow: 3px 0 10px rgba(0, 0, 0, .5);
 }
 .group span a{
-    color:#fff;
+    color:gray;
     position: relative;
     top: 10px;
     text-decoration: none;

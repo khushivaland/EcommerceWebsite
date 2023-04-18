@@ -42,6 +42,6 @@ function validation(){
     return true;
 }
 var popup = document.getElementById('popup');
-function CloseSlide(){
+/*function CloseSlide(){
     popup.classList.remove('open-slide');
-}
+}*/

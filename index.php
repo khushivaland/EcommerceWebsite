@@ -1,25 +1,30 @@
 <?php
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); 
         
         try {
             
-            $mysqli = new mysqli("localhost", "root", "", "SIGNUP");
-           
-            
-            $statement = $mysqli->prepare("insert into user  (name, email, password,cpassword) values (?, ?, ?, ?)");
-            $statement->bind_param("ssss", $name, $email, $password, $cpassword); 
-           
 
-            if($_POST['signup']) {
-                $name = $_POST["Username"];
-                $email = $_POST["Email"];
-                $password = $_POST["Password"];
-                $cpassword = $_POST["CPassword"];
+           $password_hash = password_hash($_POST["Password"], PASSWORD_DEFAULT);
+           $mysqli = require __DIR__ . "/data.php";
+
+            $sql = "INSERT INTO user (name, email, password_hash)
+                     VALUES(?,?,?)";
             
-            } 
+            $stmt = $mysqli->stmt_init();
             
-            $statement->execute(); 
+            if (! $stmt->prepare($sql)){
+                die("SQL error: " . $mysqli->error);
+            }
+            
+            $stmt->bind_param("sss",
+                              $_POST["Username"],
+                              $_POST["Email"],
+                              $password_hash);
+            
+            $stmt->execute();
+            echo "Signup Successful";
+
+
 
         } catch (mysqli_sql_exception $e) {
             echo "MySQLi Error Code: " . $e->getCode() . "<br />";
@@ -27,7 +32,9 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             exit; 
         }
 
-        $mysqli->close();
+
+
+        //$mysqli->close();
 
 
 ?>
