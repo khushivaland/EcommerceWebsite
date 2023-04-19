@@ -1,7 +1,7 @@
 <?php 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    
+
 $is_invalid = false;
+if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $mysqli = require __DIR__ . "/data.php";
     
@@ -19,11 +19,11 @@ $is_invalid = false;
     
     if($user){
        /* echo json_encode($user);
-        echo "<br />";
+        echo "<br />";*/
         //echo $_POST["Password"];
         //echo "<br />";
-        echo json_encode(password_verify($_POST["Password"], $user["password_hash"]));
-    return;*/
+       // echo json_encode(password_verify($_POST["Password"], $user["password_hash"]));
+    //return
         if(password_verify($_POST["Password"], $user["password_hash"])){
             die("Login Successfully");
         }
@@ -50,9 +50,9 @@ $is_invalid = false;
     <div class="form-box">
         <form  name="Formfill" method="POST" onsubmit="return validation()">
             <h1 class="heading">Login</h1>
-            <?php if ($is_invalid):?>
+             <?php if ($is_invalid):?>
                 <em>Invalid login</em>
-            <?php endif; ?>
+            <?php endif; ?> 
             <p id="result"></p>
             <div class="input-box">
                 <i class='bx bxs-envelope'></i>
