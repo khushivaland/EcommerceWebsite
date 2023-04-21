@@ -10,12 +10,12 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../Common/style.css">
 </head>
 <body>
    <div class="cotainer">
     <div class="form-box">
-        <form action="index.php" name="Formfill" method="POST" onsubmit="return validation()">
+        <form action="../Common/index.php" name="Formfill" method="POST" onsubmit="return validation()">
             <h1 class="heading">Sign-Up</h1>
             <p id="result"></p>
             <div class="input-box">
@@ -41,12 +41,12 @@
             </div>
             <div class="group">
                 <span>
-                    <a href="login.php">Login</a>
+                    <a href="../Login/login.php">Login</a>
                 </span>
             </div>
         </form>
     </div>
    </div>
-    <script src="script.js"></script>
+    <script src="../Common/script.js"></script>
 </body>
 </html>

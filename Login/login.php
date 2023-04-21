@@ -3,10 +3,9 @@
 $is_invalid = false;
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-    $mysqli = require __DIR__ . "/data.php";
+    $mysqli = require __DIR__ . "../Common/data.php";
     
-    //$password_hash = password_hash($_POST["Password"], PASSWORD_DEFAULT);
-
+    
     $sql = sprintf("SELECT * FROM user WHERE email = '%s' ",
                     $mysqli-> real_escape_string($_POST["Email"]) );
    
@@ -18,12 +17,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     
     
     if($user){
-       /* echo json_encode($user);
-        echo "<br />";*/
-        //echo $_POST["Password"];
-        //echo "<br />";
-       // echo json_encode(password_verify($_POST["Password"], $user["password_hash"]));
-    //return
+       
         if(password_verify($_POST["Password"], $user["password_hash"])){
             die("Login Successfully");
         }
@@ -43,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../Common/style.css">
 </head>
 <body>
    <div class="cotainer">
@@ -65,16 +59,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             
             <div class="button">
                 <input type="submit" name="signup"  class="btn" value="Login">
-                <!-- <input type="reset" class="btn" value="Reset"> -->
+               
                 
             </div>
             <div class="group">
-                <span><a href="signup.html">Sign-Up</a>
+                <span><a href="../Signup/signup.php">Sign-Up</a>
                 </span>
             </div>
         </form>
     </div>
    </div>
-    <script src="script.js"></script>
+    <script src="../Common/script.js"></script>
 </body>
 </html>
