@@ -30,7 +30,7 @@
             echo "MySQLi Error Code: " . $e->getCode() . "<br />";
             echo "Exception Msg: " . $e->getMessage();
 
-            
+
             exit; 
         }
 
