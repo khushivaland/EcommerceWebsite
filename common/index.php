@@ -5,7 +5,7 @@
             
 
            $password_hash = password_hash($_POST["Password"], PASSWORD_DEFAULT);
-           $mysqli = require __DIR__ . "/data.php";
+           $mysqli = require __DIR__ . "data.php";
 
             $sql = "INSERT INTO user (name, email, password_hash)
                      VALUES(?,?,?)";
@@ -29,12 +29,10 @@
         } catch (mysqli_sql_exception $e) {
             echo "MySQLi Error Code: " . $e->getCode() . "<br />";
             echo "Exception Msg: " . $e->getMessage();
+
+            
             exit; 
         }
-
-
-
-        //$mysqli->close();
 
 
 ?>

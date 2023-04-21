@@ -21,27 +21,5 @@ function validation(){
         return false;
     }
 
-    
-
-    
-    if(document.Formfill.CPassword.value==""){
-        document.getElementById("result").innerHTML="Enter Confirm Password*";
-        return false;
-    }
-
-    if(document.Formfill.CPassword.value !== document.Formfill.Password.value){
-        document.getElementById("result").innerHTML="Password does'nt match";
-        return false;
-    }
-
-    if(document.Formfill.Password.value == document.Formfill.CPassword.value){
-        popup.classList.add("open-slide");
-        return true;
-    }
-
     return true;
 }
-var popup = document.getElementById('popup');
-/*function CloseSlide(){
-    popup.classList.remove('open-slide');
-}*/

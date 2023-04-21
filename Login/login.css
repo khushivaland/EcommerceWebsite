@@ -6,11 +6,8 @@
     font-family: "poppins, sans-serif";
 }
 body{
-    background: url(background.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
-    min-height: 100vh;
-    width: 100%;
+    background-color: #eee;
+    
 }
 .cotainer{
     display: flex;
@@ -23,14 +20,16 @@ body{
     width: 400px;
     height: 550px;
     border: 2px solid rgba(255, 255, 2550.5);
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
+    border-radius: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
+    box-shadow: 0px 0 4px rgba(0, 0, 0, .5);
+
 }
 .form-box h1{
-    color: #fff;
+    color: black;
     align-items: center;
     font-size: 32px;
 }
@@ -43,16 +42,13 @@ body{
 .form-box .input-box input{
     width: 100%;
     height: 45px;
-    background: transparent;
-    border: none;
-    outline: none;
     padding: 0 20px 0 5px;
-    color: #fff;
+    color: black;
     font-size: 16px;
 }
 i{
     position: absolute;
-    color: #fff;
+    color: black;
     top: 13px;
     right: 0;
 }
@@ -62,61 +58,15 @@ i{
     position: relative;
     top: 25px;
 }
-.popup{
-    width: 400;
-    background-color: #fff;
-    border-radius: 6px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%,-50%) scale(0);
-    transition: transform .4s , top .4s;
-    visibility: hidden;
-    text-align: center;
-    padding: 0 30px 30px;
-    height: 330px;
-    columns: #000;
-}
-.popup ion-icon{
-    color: #00ff00;
-    font-size: 50px;
-}
-
-.popup button{
-    width: 100%;
-    background: #00ff00;
-    padding: 10px 0;
-    margin-top: 50px;
-    border: none;
-    outline: none;
-    font-size: 18px;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, .1);
-}
-.popup a{
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 2px;
-}
-
-.open-slide{
-    top: 50%;
-    transform: translate(-50%,-50%) scale(1);
-    visibility: visible;
-}
 
 input::placeholder{
-    color: #fff;
+    color: black;
 }
 .btn{
     color: #fff;
     background: blue;
-    width: 49%;
+    width: 100%;
     height: 40px;
-    border-radius: 5px;
     outline: none;
     border: none;
     font-size: 17px;
@@ -124,7 +74,7 @@ input::placeholder{
     box-shadow: 3px 0 10px rgba(0, 0, 0, .5);
 }
 .group span a{
-    color:gray;
+    color:darkblue;
     position: relative;
     top: 10px;
     text-decoration: none;
@@ -133,3 +83,4 @@ input::placeholder{
 .group a:focus{
     text-decoration: underline;
 }
+
