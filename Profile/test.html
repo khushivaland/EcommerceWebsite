@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script>
+        // Write code here
+        /* const arr = [asdasdafsdfsd];
+ 
+         const uniqueString = Math.random().toString(36).substr(2, 9);
+         console.log(uniqueString);*/
+
+        const originalString = "asdasdafsdfsd";
+
+
+        function unique_char(str1) {
+            var str = str1;
+            var uniql = [];
+
+            for (var x = 0; x < str.length; x++) {
+
+                if (uniql.indexOf(str.charAt(x)) == -1) {
+                    uniql.push(str[x]); 
+
+                    //int x = Regex.Matches(uniql, "a").Count;
+
+                }
+            }
+            return uniql;
+        }
+        //numberOfOccurence = Regex.Matches(str, regexPattern).Count;
+        var uniqArray = unique_char(originalString)
+        console.log(uniqArray);
+        //console.log(x);
+
+        for (let index = 0; index < uniqArray.length; index++) {
+            const searchWord = uniqArray[index];
+
+            //const searchWord = "the";
+
+            const regex = new RegExp(searchWord, "g"); // "g" means "global", matches all occurrences
+            const count = (originalString.match(regex) || []).length;
+            
+            console.log(`The word "${searchWord}" appears ${count} times in the original string.`);
+        }
+
+        
+
+
+
+    </script>
+</head>
+
+<body>
+    <h2>Find the text count</h2>
+
+    <div>
+        <input type="text" style="width: 300px;" />
+        <button type="button">Find</button>
+    </div>
+    <br />
+    <h4>Result:</h4>
+    <hr />
+    <div id="result"></div>
+</body>
+
+</html>

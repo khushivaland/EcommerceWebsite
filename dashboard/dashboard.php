@@ -1,10 +1,10 @@
 <?php
+session_start();
 
-$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
-         $sql = "SELECT * FROM user ";
-         
-         $query = mysqli_query($mysqli, $sql);
-         $result = mysqli_fetch_assoc($query);
+if(!isset($_SESSION["user_id"]) ){
+    header("Location: ../Login/login.php");
+}
+         $result = $_SESSION["user_name"];
         
        ?>
 
@@ -46,12 +46,12 @@ $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
           <i class='bx bxs-user-circle'></i>
         <span>
           <?php 
-           echo $result['name'];
+           echo $result;
           ?>
         </span>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../Profile/profile.php">Profile</a></li>
             <li><a class="dropdown-item" href="../Logout/logout.php">Logout</a></li>
           </ul>
       </li>
