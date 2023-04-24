@@ -1,6 +1,9 @@
 <?php
+
+$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
          $sql = "SELECT * FROM user ";
-         $query = mysqli_query($conn, $sql);
+         
+         $query = mysqli_query($mysqli, $sql);
          $result = mysqli_fetch_assoc($query);
         
        ?>
@@ -14,18 +17,9 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="../Common/style.css"> -->
-    <title>Hello, world!</title>
-    <style>
-      .img{
-        background: url(banner.jpg) no-repeat;
-        background-size: cover;
-        background-position: center;
-        min-height: 100vh;
-        width: 100%;
-}
-      
-    </style>
+    <link rel="stylesheet" href="dashboard.css">
+    <title>Dashboard</title>
+   
   </head>
   <body>
 
@@ -47,14 +41,19 @@
       </ul>
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class='bx bxs-user-circle'></i>
         <span>
           <?php 
            echo $result['name'];
           ?>
         </span>
-        <i class='bx bxs-user-circle'></i>
-      <li class="nav-btn">  
-      <a class="btn btn-outline-light" href="#">Log out</a>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../Logout/logout.php">Logout</a></li>
+          </ul>
       </li>
       </ul>
       </form>
