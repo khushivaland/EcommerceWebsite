@@ -9,6 +9,7 @@ $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+   
     $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 
     $sql = sprintf(
