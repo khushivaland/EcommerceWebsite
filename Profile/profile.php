@@ -7,44 +7,51 @@ if(!isset($_SESSION["user_id"]) ){
 $result = $_SESSION["user_name"];
 
 
-if(isset($_SESSION['user_id'])) { // check if user is logged in
-  $user_id = $_SESSION['user_id']; // get user id from session
-  // check if form was submitted
+if(isset($_SESSION['user_id'])) { 
+  $user_id = $_SESSION['user_id']; 
+  
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
-      // retrieve updated user data from POST parameters
-      $username = $_POST['Username'];
+      
+      $name = $_POST['Username'];
       $email = $_POST['Email'];
-      // sanitize and validate user input
-      $username = filter_var($username, FILTER_SANITIZE_STRING);
+  
+      $name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
+
+      
       $email = filter_var($email, FILTER_SANITIZE_EMAIL);
       if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          // handle invalid email error
+          
           die('Invalid email format');
       }
-      // connect to database
+
+      
+      
       $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
-      // update user data in database
-      $query = "UPDATE user SET name='$username', email='$email' WHERE user_id=$user_id";
+
+      
+      
+      
+      $query = "UPDATE user SET name='$name', email='$email' WHERE user_id=$user_id";
       $result1 = $mysqli->query($query);
       if($result1) {
-          // redirect user back to profile page after update
+          
           header('Location: profile.php');
           exit();
       } else {
-          // handle update error
+          
           die('Error updating user data');
       }
   } else{
 
-if(isset($_SESSION['user_id'])) { // check if user is logged in
-  $user_id = $_SESSION['user_id']; // get user id from session
-  // connect to database
+if(isset($_SESSION['user_id'])) { 
+  $user_id = $_SESSION['user_id']; 
+  
   $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 
-  // retrieve user data from database
+  
   $query = "SELECT * FROM user WHERE user_id = $user_id";
   $result1 = $mysqli->query($query);
-  $user = $result1->fetch_assoc(); // get user data as associative array
+  $user = $result1->fetch_assoc(); 
 }
 
 }
@@ -53,11 +60,11 @@ if(isset($_SESSION['user_id'])) { // check if user is logged in
 <!Doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Bootstrap CSS -->
+  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="profile.css">
     <title>Profile</title>
