@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script>
+        // Write code here
+        
+       // const originalString = "asdasdafsdfsd";
+       //const originalString = "asdasdafsdfsd";
+
+
+function unique_char() {
+   // unique=document.getElementById('unique').value
+    var str = document.getElementById('unique').value;
+    var uniql = [];
+
+    for (var x = 0; x < str.length; x++) {
+
+        if (uniql.indexOf(str.charAt(x)) == -1) {
+            uniql.push(str[x]); 
+
+        }
+    }
+    document.getElementById('result').innerHTML=uniql;
+    //return uniql;
+//}
+
+var uniqArray= document.getElementById('unique').value;
+//console.log(uniqArray);
+
+
+for (let index = 0; index < uniqArray.length; index++) {
+    const searchWord = uniqArray[index];
+
+    //const searchWord = "the";
+
+    const regex = new RegExp(searchWord, "g"); // "g" means "global", matches all occurrences
+    const count = (uniqArray.match(regex) || []).length;
+    const resultEle = document.getElementById("countnum");
+    //console.log(`The word "${searchWord}" appears ${count} times in the original string.`);
+}}
+
+
+    </script>
+</head>
+
+<body>
+    <h2>Find the text count</h2>
+
+    <div>
+        <input type="text" style="width: 300px;" id="unique" />
+        <button  Value="Unique_char" type="button" onClick="unique_char()">Find</button>
+    </div>
+    <br />
+    <h4 id="val">Result:</h4>
+    
+    <hr />
+    <div id="result">
+    <p id="countnum"></p>
+    </div>
+
+</body>
+</html>
+
+
+function unique_char() {
+    uniquee=document.getElementById('unique').value
+   // var str = str1;
+    var uniql = [];
+
+    for (var x = 0; x < uniquee.length; x++) {
+
+        if (uniql.indexOf(uniquee.charAt(x)) == -1) {
+            //uniql= uniql+unique[x];
+            uniql.push(uniquee[x]); 
+
+        }
+    }
+     document.getElementById('result').innerHTML=uniql;
+     
+    //return uniql;
+}
+
+
+
+var uniqArray = document.getElementById('unique').value;
+//console.log(uniqArray);
+
+
+for (let index = 0; index < uniqArray.length; index++) {
+    const searchWord = uniqArray[index];
+
+    //const searchWord = "the";
+
+    const regex = new RegExp(searchWord, "g"); // "g" means "global", matches all occurrences
+    const count = (uniqArray.match(regex) || []).length;
+    
+    const resultEle = document.getElementById("countnum");
+   
+}

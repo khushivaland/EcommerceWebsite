@@ -1,34 +1,55 @@
-<?php
+<?php 
 session_start();
-
 if(!isset($_SESSION["user_id"]) ){
-    header("Location: ../Login/login.php");
+  header("Location: ../Login/login.php");
 }
 
-$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
+$result = $_SESSION["user_name"];
 
 
-if(isset($_SESSION['VALID_USER'])){
+if(isset($_SESSION['user_id'])) { // check if user is logged in
+  $user_id = $_SESSION['user_id']; // get user id from session
+  // check if form was submitted
+  if($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // retrieve updated user data from POST parameters
+      $username = $_POST['Username'];
+      $email = $_POST['Email'];
+      // sanitize and validate user input
+      $username = filter_var($username, FILTER_SANITIZE_STRING);
+      $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+      if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          // handle invalid email error
+          die('Invalid email format');
+      }
+      // connect to database
+      $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
+      // update user data in database
+      $query = "UPDATE user SET name='$username', email='$email' WHERE user_id=$user_id";
+      $result1 = $mysqli->query($query);
+      if($result1) {
+          // redirect user back to profile page after update
+          header('Location: profile.php');
+          exit();
+      } else {
+          // handle update error
+          die('Error updating user data');
+      }
+  } else{
 
-  if(isset($_POST['submit']))
-  {
-      $username = $_POST['Name'];
-      $password = $_POST['Password'];
-  
-      $s=$mysqli->query("UPDATE user SET name='$username', password='$password' WHERE name='".$mysqli->real_escape_string($_SESSION["VALID_USER"])."'");
-  
-      if ($s)
-          { echo "<script type='text/javascript'>alert('Successful - Record Updated!'); window.location.href = 'user_profile.php';</script>"; }
-      else
-          { echo "<script type='text/javascript'>alert('Unsuccessful - ERROR!'); window.location.href = 'user_profile.php';</script>"; }
-  }
+if(isset($_SESSION['user_id'])) { // check if user is logged in
+  $user_id = $_SESSION['user_id']; // get user id from session
+  // connect to database
+  $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
+
+  // retrieve user data from database
+  $query = "SELECT * FROM user WHERE user_id = $user_id";
+  $result1 = $mysqli->query($query);
+  $user = $result1->fetch_assoc(); // get user data as associative array
 }
-  $query1=$mysqli->query("SELECT * FROM user WHERE name='".$mysqli->real_escape_string($_SESSION["VALID_USER"])."'  AND user_levels = '".$mysqli->real_escape_string('1')."'");
-  $query2= $result->fetch_assoc($query1); 
-          
-       ?>
+
+}
+}
 ?>
-
 <!Doctype html>
 <html lang="en">
   <head>
@@ -55,7 +76,7 @@ if(isset($_SESSION['VALID_USER'])){
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">about</a>
+          <a class="nav-link active" href="#">about</a>  
         </li>
       </ul>
 
@@ -86,21 +107,22 @@ if(isset($_SESSION['VALID_USER'])){
                 <p id="result"></p>
                 <div class="input-box">
 
-                    <input type="text" name="Username" placeholder="Username" >
+                    <input type="text" name="Username" placeholder="Username" value="<?php echo $user['name']; ?>" >
                 </div>
                 <div class="input-box">
 
-                    <input type="email" name="Email" placeholder="Email" >
-
-                </div>
-                <div class="input-box">
-
-                    <input type="password" name="Password" placeholder="Password">
+                    <input type="email" name="Email" placeholder="Email" value="<?php echo $user['email']; ?>" >
 
                 </div>
                 <div class="input-box">
 
-                    <input type="password" name="CPassword" placeholder="Confirm Password">
+                    <input type="password" name="Password" placeholder="Password" value="<?php echo $user['password_hash']; ?>">
+
+
+                </div>
+                <div class="input-box">
+
+                    <input type="password" name="CPassword" placeholder="Confirm Password" value="<?php echo $user['password_hash']; ?>">
                 </div>
                 <div class="button">
                     <input type="submit" name="submit" class="btn" value="Update">
@@ -120,3 +142,9 @@ if(isset($_SESSION['VALID_USER'])){
 </body>
 
 </html>
+
+
+
+
+
+77071070
