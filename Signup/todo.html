@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo List</title>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <input type="text" id="todoInput" placeholder="Add a new todo...">
+  <button onclick="addTodo()">Add</button>
+  <ul id="todoList"></ul>
+
+  <script>
+    let todos = [];
+
+    function addTodo() {
+      let todoInput = document.getElementById("todoInput");
+      let todoList = document.getElementById("todoList");
+      let todo = {
+        text: todoInput.value,
+        completed: false
+      };
+      if (todo.text) {
+        todos.push(todo);
+        todoInput.value = "";
+        renderTodos();
+      }
+    }
+
+    function removeTodo(index) {
+      todos.splice(index, 1);
+      renderTodos();
+    }
+
+    function toggleTodoCompleted(index) {
+      todos[index].completed = !todos[index].completed;
+      renderTodos();
+    }
+
+    function renderTodos() {
+      let todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+      for (let i = 0; i < todos.length; i++) {
+        let todo = todos[i];
+        let li = document.createElement("li");
+        if (todo.completed) {
+          li.innerHTML = "<del>" + todo.text + "</del> <button onclick='removeTodo(" + i + ")'>X</button>";
+        } else {
+          li.innerHTML = todo.text + " <button onclick='toggleTodoCompleted(" + i + ")'>line</button> <button onclick='removeTodo(" + i + ")'>X</button>";
+        }
+        todoList.appendChild(li);
+      }
+    }
+  </script>
+</body>
+</html>

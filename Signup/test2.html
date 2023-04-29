@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test2</title>
+<script>
+
+    function unique_minnum() { 
+        const numericText = document.getElementById('unique').value;
+        //const numbers = numericText.split(" ").map(Number);
+        const minNumber = Math.min(...numericText);
+        const results = `The minimum number is: ${minNumber}`;
+        document.getElementById('result').innerHTML=results;
+    }
+
+    function unique_maxnum() { debugger
+        const numericText = document.getElementById('unique').value;
+        //const numbers = numericText.split(" ").map(Number);
+        const maxNumber = Math.max(...numericText);
+        const results = `The maximum number is: ${maxNumber}`;
+        document.getElementById('maxnumber').innerHTML=results;
+    }
+
+</script>
+
+</head>
+<body>
+    <h2>Find Minimum and Maximum number</h2>
+
+    <div>
+        <input type="text" style="width: 300px;" id="unique" />
+        <button type="button" onClick="unique_minnum()">Min</button>
+        <button type="button" onClick="unique_maxnum()">Max</button>
+
+    </div>
+    <br />
+    <h4 id="val">Result:</h4>
+    <hr />
+    <div id="result">
+    </div>
+    <div id="maxnumber"></div>
+
+</body>
+</html>

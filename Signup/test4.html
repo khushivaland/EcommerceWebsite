@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <script>
+    let tasks = [];
+
+function addTask() {
+  let taskInput = document.getElementById("taskInput");
+  let taskList = document.getElementById("taskList");
+  let task = taskInput.value;
+  if (task) {
+    tasks.push(task);
+    taskInput.value = "";
+    renderTasks();
+  }
+}
+
+
+    function removeTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+    
+
+    function renderTasks() {
+      let taskList = document.getElementById("taskList");
+      taskList.innerHTML = "";
+      for (let i = 0; i < tasks.length; i++) {
+        let task = tasks[i];
+        let li = document.createElement("li");
+        li.innerHTML = task + " <button onclick='removeTask(" + i + ")'>X</button>";
+        taskList.appendChild(li);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <input type="text" id="taskInput" placeholder="Add a task...">
+  <button onClick="addTask()">Add</button>
+  <br><br>
+  <ul id="taskList"></ul>
+
+  
+</body>
+</html>

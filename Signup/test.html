@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,23 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
     <script>
-        // Write code here
+        
 
-        // const originalString = "asdasdafsdfsd";   
 
         function unique_number(){ 
-            const arr =  document.getElementById('unique').value;
-            const numbersOnly = [];   
+            const arr = document.getElementById('unique').value;
+            var seperate = arr.split('').reduce(function(start , item){
+            Number(item) ? start[0] += item : start[1] += item;
+            return start
+            },['',''])
 
-           for (let i = 0; i < arr.length; i++) {
-           const val = parseInt(arr[i]);
-           if (!isNaN(val) && typeof val !== 'string') {
-            
-           numbersOnly.push(val);
-             }
-           }
-           document.getElementById('number').innerHTML = numbersOnly;
-          }
+           // var word = "";
+            //var digits = "";
+            //for (let i = 0;i < arr.length; i++){
+            //const [word, digits] = arr.match(/\D+|\d+/g);
+           
+              }
+           
+           // console.log(digits);
+           
+          //}
 
 
         function unique_char() {
@@ -35,14 +39,10 @@
                 if (uniql.indexOf(str.charAt(x)) == -1) {
                     uniql.push(str[x]);    
 
-                }
+                };
             }
-           // document.getElementById('result').innerHTML = uniql;
-            //return uniql;
-            //}
 
             var uniqArray = uniql;
-            //console.log(uniqArray);
             var printString = ""; 
 
             for (let index = 0; index < uniqArray.length; index++) {
@@ -76,11 +76,11 @@
     <hr />
     
     <div id="result">
-       <p id="number"> Number: 1,5,6,5</p> <br/>
+        <p>unique num: 15avge6</p>
+       <p id="number"> Number: 1,5,6</p> <br/>
         String: a,v,g,e
     </div>
 </body>
 
 </html>
-
 
