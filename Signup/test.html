@@ -8,27 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
     <script>
-        
-
-
-        function unique_number(){ 
-            const arr = document.getElementById('unique').value;
-            var seperate = arr.split('').reduce(function(start , item){
-            Number(item) ? start[0] += item : start[1] += item;
-            return start
-            },['',''])
-
-           // var word = "";
-            //var digits = "";
-            //for (let i = 0;i < arr.length; i++){
-            //const [word, digits] = arr.match(/\D+|\d+/g);
-           
-              }
-           
-           // console.log(digits);
-           
-          //}
-
 
         function unique_char() {
             var str = document.getElementById('unique').value;
@@ -58,6 +37,16 @@
             document.getElementById('result').innerHTML = printString;
 
         }
+        function unique_number(){ 
+            const arr = document.getElementById('unique').value;
+            
+            let uniqueCharacters = new Set(arr.replace(/[0-9]/g, ""));
+            let uniqueNumbers =new Set(arr.replace(/[a-zA-Z]/g, ""));
+        
+
+            document.getElementById('result').innerHTML = ([...uniqueCharacters]);
+            document.getElementById('numberval').innerHTML = ([...uniqueNumbers]);
+        }
         
     </script>
 </head>
@@ -74,11 +63,11 @@
     <h4 id="val">Result:</h4>
 
     <hr />
-    
+
     <div id="result">
-        <p>unique num: 15avge6</p>
-       <p id="number"> Number: 1,5,6</p> <br/>
-        String: a,v,g,e
+       <p id="numberval"> Number: </p> 
+        <p id="stringval"> String:</p>
+        
     </div>
 </body>
 
