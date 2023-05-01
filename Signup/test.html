@@ -40,12 +40,12 @@
         function unique_number(){ 
             const arr = document.getElementById('unique').value;
             
-            let uniqueCharacters = new Set(arr.replace(/[0-9]/g, ""));
-            let uniqueNumbers =new Set(arr.replace(/[a-zA-Z]/g, ""));
+            let uniqueCharacters = arr.replace(/[0-9]/g, "");
+            let uniqueNumbers = arr.replace(/[a-zA-Z]/g, "");
         
 
-            document.getElementById('result').innerHTML = ([...uniqueCharacters]);
-            document.getElementById('numberval').innerHTML = ([...uniqueNumbers]);
+            document.getElementById('numberval').innerHTML = (uniqueCharacters.split(""));
+            document.getElementById('stringval').innerHTML = (uniqueNumbers);
         }
         
     </script>
@@ -65,8 +65,8 @@
     <hr />
 
     <div id="result">
-       <p id="numberval"> Number: </p> 
-        <p id="stringval"> String:</p>
+       <p id="numberval"></p> 
+        <p id="stringval"></p>
         
     </div>
 </body>

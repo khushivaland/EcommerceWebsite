@@ -10,7 +10,8 @@
     function unique_minnum() { 
         const numericText = document.getElementById('unique').value;
         //const numbers = numericText.split(" ").map(Number);
-        const minNumber = Math.min(...numericText);
+        const minNumber = Math.min.apply(null, numericText.split(""));
+;
         const results = `The minimum number is: ${minNumber}`;
         document.getElementById('result').innerHTML=results;
     }
@@ -18,7 +19,7 @@
     function unique_maxnum() { debugger
         const numericText = document.getElementById('unique').value;
         //const numbers = numericText.split(" ").map(Number);
-        const maxNumber = Math.max(...numericText);
+        const maxNumber = Math.max.apply(null, numericText.split(""));;
         const results = `The maximum number is: ${maxNumber}`;
         document.getElementById('maxnumber').innerHTML=results;
     }
@@ -30,7 +31,7 @@
     <h2>Find Minimum and Maximum number</h2>
 
     <div>
-        <input type="text" style="width: 300px;" id="unique" />
+        <input type="number" style="width: 300px;" id="unique" />
         <button type="button" onClick="unique_minnum()">Min</button>
         <button type="button" onClick="unique_maxnum()">Max</button>
 

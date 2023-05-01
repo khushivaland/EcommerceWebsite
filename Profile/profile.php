@@ -14,6 +14,7 @@ if(isset($_SESSION['user_id'])) {
       
       $name = $_POST['Username'];
       $email = $_POST['Email'];
+      $password = $_POST['Password'];
   
       $name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -23,6 +24,8 @@ if(isset($_SESSION['user_id'])) {
           
           die('Invalid email format');
       }
+      $new_password = password_hash($password, PASSWORD_DEFAULT);
+      
 
       
       
@@ -31,7 +34,7 @@ if(isset($_SESSION['user_id'])) {
       
       
       
-      $query = "UPDATE user SET name='$name', email='$email' WHERE user_id=$user_id";
+      $query = "UPDATE user SET name='$name', email='$email' , password_hash='$new_password' WHERE user_id=$user_id";
       $result1 = $mysqli->query($query);
       if($result1) {
           
