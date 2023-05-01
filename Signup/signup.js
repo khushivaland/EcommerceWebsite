@@ -20,6 +20,14 @@ function validation(){
         document.getElementById("result").innerHTML="Password must be 8-digits";
         return false;
     }
+    if(document.Formfill.Password.value != /^(?=.*[a-z])(?=.*[A-Z]).+$/){
+        document.getElementById("result").innerHTML="At least one Upper and one lower letter";
+        return false;  
+    }
+    if(document.Formfill.Password.value != /[0-9]/g){
+          document.getElementById("result").innerHTML="Password must be at least one number";
+          return false;  
+    }
     
     if(document.Formfill.CPassword.value==""){
         document.getElementById("result").innerHTML="Enter Confirm Password*";
@@ -32,4 +40,11 @@ function validation(){
     }
 
     return true;
+
 }
+
+  
+
+
+
+

@@ -1,51 +1,55 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo List</title>
-  <script>
-    let tasks = [];
-
-function addTask() {
-  let taskInput = document.getElementById("taskInput");
-  let taskList = document.getElementById("taskList");
-  let task = taskInput.value;
-  if (task) {
-    tasks.push(task);
-    taskInput.value = "";
-    renderTasks();
-  }
-}
-
-
-    function removeTask(index) {
-      tasks.splice(index, 1);
-      renderTasks();
-    }
-    
-
-    function renderTasks() {
-      let taskList = document.getElementById("taskList");
-      taskList.innerHTML = "";
-      for (let i = 0; i < tasks.length; i++) {
-        let task = tasks[i];
-        let li = document.createElement("li");
-        li.innerHTML = task + " <button onclick='removeTask(" + i + ")'>X</button>";
-        taskList.appendChild(li);
-      }
-    }
-  </script>
 </head>
 <body>
   <h1>Todo List</h1>
-  <input type="text" id="taskInput" placeholder="Add a task...">
-  <button onClick="addTask()">Add</button>
-  <br><br>
-  <ul id="taskList"></ul>
+  <input type="text" id="todoInput" placeholder="Add a new todo...">
+  <button onclick="addTodo()">Add</button>
+  <ul id="todoList"></ul>
 
-  
+  <script>
+    let todos = [];
+
+    function addTodo() {
+      let todoInput = document.getElementById("todoInput");
+      let todoList = document.getElementById("todoList");
+      let todo = {
+        text: todoInput.value,
+        completed: false
+      };
+      if (todo.text) {
+        todos.push(todo);
+        todoInput.value = "";
+        renderTodos();
+      }
+    }
+
+    function removeTodo(index) {
+      todos.splice(index, 1);
+      renderTodos();
+    }
+
+    function toggleTodoCompleted(index) {
+      todos[index].completed = !todos[index].completed;
+      renderTodos();
+    }
+
+    function renderTodos() {
+      let todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+      for (let i = 0; i < todos.length; i++) {
+        let todo = todos[i];
+        let li = document.createElement("li");
+        if (todo.completed) {
+          li.innerHTML = "<del>" + todo.text + "</del> <button onclick='removeTodo(" + i + ")'>X</button>";
+        } else {
+          li.innerHTML = todo.text + " <button onclick='toggleTodoCompleted(" + i + ")'>line</button> <button onclick='removeTodo(" + i + ")'>X</button>";
+        }
+        todoList.appendChild(li);
+      }
+    }
+  </script>
 </body>
 </html>

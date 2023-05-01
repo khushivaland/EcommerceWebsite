@@ -15,7 +15,7 @@
 <body>
    <div class="cotainer">
     <div class="form-box">
-        <form action="../common/index.php" name="Formfill" method="POST" onsubmit="return validation()">
+        <form action="../common/index.php" name="Formfill" method="POST" onsubmit="return validation() && validatePassword()">
             <h1 class="heading">Sign-Up</h1>
             <p id="result"></p>
             <div class="input-box">
@@ -30,6 +30,7 @@
             <div class="input-box">
                
                 <input type="password" name="Password" placeholder="Password">
+            
                 
             </div>
             <div class="input-box">
