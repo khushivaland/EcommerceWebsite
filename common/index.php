@@ -26,8 +26,8 @@
 
             echo "Signup Successfully";
         
- header('Location: ../Login/login.php');
- exit;
+       header('Location: ../Login/login.php');
+       exit;
  
 
 
@@ -42,24 +42,3 @@
 
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

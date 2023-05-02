@@ -9,7 +9,15 @@ $result = $_SESSION["user_name"];
 $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 $sql = "SELECT * FROM products";
 $result1 = mysqli_query($mysqli, $sql);
-$row = $result1->fetch_assoc(); 
+//$row = $result1->fetch_assoc();
+while ($row = mysqli_fetch_assoc($result1)) {
+  $name = $row['name'];
+  $description = $row['description'];
+  $price = $row['price'];
+  $quantity = $row['quantity'];
+  $category = $row['category'];
+  $status = $row['status'];
+} 
 ?>
 
 <!doctype html>
@@ -21,7 +29,7 @@ $row = $result1->fetch_assoc();
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="product.css">
-    <title>Hello, world!</title>
+    <title>Product</title>
   </head>
   <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -144,12 +152,12 @@ $row = $result1->fetch_assoc();
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td><?php echo $row["name"]; ?></td>
-                        <td><?php echo $row["description"]; ?></td>
-                        <td><?php echo $row["price"]; ?></td>
-                        <td><?php echo $row["quantity"]; ?></td>
-                        <td><?php echo $row["category"]; ?></td>
-                        <td><?php echo $row["status"]; ?></td>
+                        <td><?php echo $name ?></td>
+                        <td><?php echo $description ?></td>
+                        <td><?php echo $price ?></td>
+                        <td><?php echo $quantity ?></td>
+                        <td><?php echo $category ?></td>
+                        <td><?php echo $status ?></td>
                     </tr>
                     <tr>
                         <td>2</td>

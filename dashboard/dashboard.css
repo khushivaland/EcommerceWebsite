@@ -5,7 +5,17 @@
     min-height: 100vh;
     width: 100%;
 }
-.hoverr  a::after{
-    text-decoration: underline;
+/*.hoverr  a::after{
     background-color: grey;
+}*/
+
+.btnnn:hover{
+    background-color: darkgray;
+    /* width: 49%; */
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, .5);
 }
