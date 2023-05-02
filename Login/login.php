@@ -5,6 +5,8 @@ if(isset($_SESSION["user_id"]) ){
     header("Location: ../dashboard/dashboard.php");
 }
 
+  
+
 $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -51,10 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="login.css">
     <title>Login</title>
+   
 </head>
 
 <body>
-<!--<section  style="background-color: #eee;"> -->
+
 <div class="cotainer">
     <div class="form-box">
         <form  name="Formfill" method="POST" onsubmit="return validation()">

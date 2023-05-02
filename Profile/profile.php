@@ -6,6 +6,8 @@ if(!isset($_SESSION["user_id"]) ){
 
 $result = $_SESSION["user_name"];
 
+$_SESSION['profile_updated'] = true;
+
 
 if(isset($_SESSION['user_id'])) { 
   $user_id = $_SESSION['user_id']; 
@@ -59,6 +61,7 @@ if(isset($_SESSION['user_id'])) {
 
 }
 }
+
 ?>
 <!Doctype html>
 <html lang="en">
@@ -72,6 +75,7 @@ if(isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="profile.css">
     <title>Profile</title>
    
+   
   </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -84,6 +88,9 @@ if(isset($_SESSION['user_id'])) {
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="../Product/product.php">Product</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="#">about</a>  
@@ -110,7 +117,9 @@ if(isset($_SESSION['user_id'])) {
     </div>
   </div>
 </nav>
+
     <div class="cotainer">
+
         <div class="form-box">
             <form action="" name="Formfill" method="POST" onsubmit="return validation()">
                 <h1 class="heading">Profile</h1>
@@ -135,7 +144,7 @@ if(isset($_SESSION['user_id'])) {
                     <input type="password" name="CPassword" placeholder="Confirm Password" value="<?php echo $user['password_hash']; ?>">
                 </div>
                 <div class="button">
-                    <input type="submit" name="submit" class="btn" value="Update">
+                    <input type="submit" name="submit" id="toastbtn" class="btn" value="Update">
                     <input type="reset" class="btn" value="Reset">
 
                 </div>
@@ -145,16 +154,30 @@ if(isset($_SESSION['user_id'])) {
                     </span>
                 </div>
             </form>
-        </div>
+        
     </div>
+    
+  </div>
+  <div class="toast">
+    <div class="toast-header">
+      <strong class="me-auto">Toast Header</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">
+      <p>Some text inside the toast body</p>
+    </div>
+  </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <script>
+    
+    document.getElementById("toastbtn").onclick = function() {
+      var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+      var toastList = toastElList.map(function(toastEl) {
+        return new bootstrap.Toast(toastEl)
+      })
+      toastList.forEach(toast => toast.show()) 
+    }
+       </script>
 </body>
 
 </html>
-
-
-
-
-
-77071070
