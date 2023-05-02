@@ -86,6 +86,9 @@ if(isset($_SESSION['user_id'])) {
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link active" href="../Product/product.php">Product</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link active" href="#">about</a>  
         </li>
       </ul>
