@@ -5,6 +5,11 @@ if(!isset($_SESSION["user_id"]) ){
 }
 
 $result = $_SESSION["user_name"];
+
+$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
+$sql = "SELECT * FROM products";
+$result1 = mysqli_query($mysqli, $sql);
+$row = $result1->fetch_assoc(); 
 ?>
 
 <!doctype html>
@@ -13,7 +18,7 @@ $result = $_SESSION["user_name"];
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="product.css">
     <title>Hello, world!</title>
@@ -61,61 +66,65 @@ $result = $_SESSION["user_name"];
     <div class="container">
     <h3>Product</h3>
     <div class="table-responsive">
-
-<!-- Button trigger modal -->
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<!-- Button to trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
   Add Product
 </button>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Add Product</h5>
+        <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form>
+        <form action="addproduct.php" method="POST">
           <div class="mb-3">
-            <label for="name" class="col-form-label">Name:</label>
-            <input type="text" class="form-control" id="name">
+            <label for="name" class="form-label">Product Name:</label>
+            <input type="text" class="form-control" name="name" required>
           </div>
+
           <div class="mb-3">
-            <label for="description" class="col-form-label">Description:</label>
-            <input type="text" class="form-control" id="description">
+            <label for="description" class="form-label">Product Description:</label>
+            <textarea class="form-control" name="description" required></textarea>
           </div>
+
           <div class="mb-3">
-            <label for="price" class="col-form-label">Price:</label>
-            <input type="number" class="form-control" id="price">
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" class="form-control" name="price" step="0.01" required>
           </div>
+
           <div class="mb-3">
-            <label for="quantity" class="col-form-label">Quantity:</label>
-            <input type="number" class="form-control" id="quantity">
+            <label for="quantity" class="form-label">Quantity:</label>
+            <input type="number" class="form-control" name="quantity" required>
           </div>
+
           <div class="mb-3">
-    <label for="color-select" class="form-label">Category:</label>
-    <select id="color-select" name="color" class="form-select">
-      <option value="red">Stetionary</option>
-      <option value="green">Electronic</option>
-      <option value="blue">Clothing</option>
-      <option value="yellow">Furniture</option>
-    </select>
-    </div>
-    <div class="mb-3">
-    <label for="status-select">Select status:</label>
-  <select id="status-select" name="status">
-    <option value="active">Active</option>
-    <option value="inactive">In active</option>
-  </select>
+            <label for="category" class="form-label">Category:</label>
+            <select class="form-select" name="category" required>
+            <option value="stetionary">Stetionary</option>
+            <option value="electronic">Electronic</option>
+            <option value="clothing">Clothing</option>
+            <option value="furniture">Furniture</option>
+            </select>
           </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <select class="form-select" name="status" required>
+              <option value="">-- Select Status --</option>
+              <option value="in stock">Active</option>
+              <option value="out of stock">In active</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Add</button>
+        <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
         </form>
       </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -123,24 +132,24 @@ $result = $_SESSION["user_name"];
     <table class="table table-bordered table-hover">
     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Category</th>
-                        <th>Status</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Product 1</td>
-                        <td>Description of product 1</td>
-                        <td>$19.99</td>
-                        <td>10</td>
-                        <td>1</td>
-                        <td>active</td>
+                        <td><?php echo $row["name"]; ?></td>
+                        <td><?php echo $row["description"]; ?></td>
+                        <td><?php echo $row["price"]; ?></td>
+                        <td><?php echo $row["quantity"]; ?></td>
+                        <td><?php echo $row["category"]; ?></td>
+                        <td><?php echo $row["status"]; ?></td>
                     </tr>
                     <tr>
                         <td>2</td>
@@ -160,24 +169,7 @@ $result = $_SESSION["user_name"];
                         <td>3</td>
                         <td>active</td>
                     </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Product 4</td>
-                        <td>Description of product 4</td>
-                        <td>$39.99</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>In active</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Product 5</td>
-                        <td>Description of product 5</td>
-                        <td>$39.99</td>
-                        <td>3</td>
-                        <td>5</td>
-                        <td>active</td>
-                    </tr>
+                  
                 </tbody>
 </table>
 </div>
