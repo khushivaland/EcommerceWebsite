@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 
