@@ -50,3 +50,13 @@ tbody tr:nth-of-type(even) {
 tbody tr:hover {
     background-color: #e9ecef;
 }
+.btnnn:hover{
+    background-color: darkgray;
+    /* width: 49%; */
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, .5);
+}

@@ -16,6 +16,8 @@ $status = $_POST['status'];
 // Execute SQL statement
 if ($stmt->execute()) {
   echo "Product added successfully!";
+  header('Location: product.php');
+  exit();
 } else {
   echo "Error adding product: " . $stmt->error;
 }

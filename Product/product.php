@@ -10,14 +10,7 @@ $mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 $sql = "SELECT * FROM products";
 $result1 = mysqli_query($mysqli, $sql);
 //$row = $result1->fetch_assoc();
-while ($row = mysqli_fetch_assoc($result1)) {
-  $name = $row['name'];
-  $description = $row['description'];
-  $price = $row['price'];
-  $quantity = $row['quantity'];
-  $category = $row['category'];
-  $status = $row['status'];
-} 
+
 ?>
 
 <!doctype html>
@@ -40,13 +33,13 @@ while ($row = mysqli_fetch_assoc($result1)) {
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item btnnn">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item btnnn">
           <a class="nav-link active" href="../Product/product.php">Product</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item btnnn">
           <a class="nav-link active" href="#">about</a>  
         </li>
       </ul>
@@ -151,33 +144,23 @@ while ($row = mysqli_fetch_assoc($result1)) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td><?php echo $name ?></td>
-                        <td><?php echo $description ?></td>
-                        <td><?php echo $price ?></td>
-                        <td><?php echo $quantity ?></td>
-                        <td><?php echo $category ?></td>
-                        <td><?php echo $status ?></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Product 2</td>
-                        <td>Description of product 2</td>
-                        <td>$29.99</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>In active</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Product 3</td>
-                        <td>Description of product 3</td>
-                        <td>$39.99</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>active</td>
-                    </tr>
-                  
+                      <?php 
+                      while ($row = mysqli_fetch_assoc($result1)) 
+                      {
+                        ?>
+                       <td><?php  echo $row['id']; ?></td>
+                       <td><?php  echo $row['name']; ?></td>
+                       <td><?php  echo $row['description']; ?></td>
+                       <td><?php  echo $row['price']; ?></td>
+                       <td><?php  echo $row['quantity']; ?></td>
+                       <td><?php  echo $row['category']; ?></td>
+                       <td><?php  echo $row['status']; ?></td>
+                      </tr>
+
+                        <?php
+                      } 
+                      ?>
+                       
                 </tbody>
 </table>
 </div>
