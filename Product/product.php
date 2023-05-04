@@ -15,6 +15,7 @@ $result1 = mysqli_query($mysqli, $sql);
 
 
 
+
 <!doctype html>
 <html lang="en">
 
@@ -40,24 +41,30 @@ $result1 = mysqli_query($mysqli, $sql);
         if (xhttp.status != 200) { // analyze HTTP status of the response
           alert(`Error ${xhttp.status}: ${xhttp.statusText}`); // e.g. 404: Not Found
         } else { // show the result
-          console.log(xhttp.response)
+          var jsonData = xhttp.response;
+          var dataObj = JSON.parse(jsonData);
+         var nameInput = document.getElementById("nameInput");
+          nameInput.value = dataObj.name;
+          var descInput = document.getElementById("descInput");
+          descInput.value = dataObj.description;
+          var priceInput = document.getElementById("priceInput");
+          priceInput.value = dataObj.price;
+          var quantityInput = document.getElementById("quantityInput");
+          quantityInput.value = dataObj.quantity;
+          var categoryInput = document.getElementById("categoryInput");
+          categoryInput.value = dataObj.category;
+          var statusInput = document.getElementById("statusInput");
+          statusInput.value = dataObj.status;
+          //console.log(xhttp.response)
           new bootstrap.Modal(document.querySelector("#editProductModal")).show();
+          
 
         }
       };
     }
 
+    
 
-
-    /*window.onload = function () {
-        OpenBootstrapPopup();
-    };
-    function OpenBootstrapPopup() {
-        $("#editProductModal").modal('show');
-    }*/
-    $(document).ready(function() {
-      $('#editProductModal').modal('show');
-    });
   </script>
 </head>
 
@@ -194,16 +201,18 @@ $result1 = mysqli_query($mysqli, $sql);
               <td><?php echo $row['category']; ?></td>
               <td><?php echo $row['status']; ?></td>
               <td>
-                <button type="button" class="btn btn-primary btns" onClick="loadDoc(<?php echo $row['id']; ?>);" data-toggle="modal" data-target="#editProductModal">
+                <button type="button" class="btn btn-primary btns" onClick="loadDoc(<?php echo $row['id']; ?>)" data-toggle="modal" data-target="#editProductModal">
+                
                   Edit
                 </button>
                 <!-- <a class="btn btn-primary" href="./getProduct.php?id=<?php echo $row['id']; ?>" role="button" >Edit</a> -->
 
               </td>
 
-              <td><button type="button" class="btn btn-danger btns" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
-                  Delete
-                </button></td>
+              <td><button type="button" class="btn btn-danger btns" onClick="loadDoc(<?php echo $row['id']; ?>)" data-toggle="modal" data-target="#editProductModal">
+                
+                Delete
+              </button></td>
           </tr>
 
         <?php
@@ -220,30 +229,30 @@ $result1 = mysqli_query($mysqli, $sql);
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" method="POST">
+              <form action="" id="inputdata" method="POST">
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
-                  <input type="text" class="form-control" name="name" value="<?php echo $name; ?>" required>
+                  <input type="text" class="form-control" id="nameInput" name="name" value='$name' required>
                 </div>
 
                 <div class="mb-3">
                   <label for="description" class="form-label">Description:</label>
-                  <textarea class="form-control" name="description" value="<?php echo $description; ?>" required></textarea>
+                  <textarea class="form-control" name="description" id="descInput" value='$description' required></textarea>
                 </div>
 
                 <div class="mb-3">
                   <label for="price" class="form-label">Price:</label>
-                  <input type="number" class="form-control" name="price" step="0.01" value="<?php echo $price; ?>" required>
+                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01" value='$price' required>
                 </div>
 
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity:</label>
-                  <input type="number" class="form-control" name="quantity" value="<?php echo $quantity; ?>" required>
+                  <input type="number" class="form-control" id="quantityInput" name="quantity" value='$quantity' required>
                 </div>
 
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
-                  <select class="form-select" name="category" value="<?php echo $category; ?>" required>
+                  <select class="form-select" name="category" id="categoryInput" value='$category' required>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
@@ -253,7 +262,7 @@ $result1 = mysqli_query($mysqli, $sql);
 
                 <div class="mb-3">
                   <label for="status" class="form-label">Status:</label>
-                  <select class="form-select" name="status" value="<?php echo $status; ?>" required>
+                  <select class="form-select" name="status" id="statusInput" value='$status' required>
                     <option value="">-- Select Status --</option>
                     <option value="in stock">Active</option>
                     <option value="out of stock">In active</option>
@@ -271,38 +280,38 @@ $result1 = mysqli_query($mysqli, $sql);
       </div>
 
 
-      <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+      <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="deleteProductModal">Delete Product</h5>
+              <h5 class="modal-title" id="editProductModal">Delete Product</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="deleteproduct.php" method="POST">
+              <form action="" id="inputdata" method="POST">
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
-                  <input type="text" class="form-control" name="name" required>
+                  <input type="text" class="form-control" id="nameInput" name="name" value="" required>
                 </div>
 
                 <div class="mb-3">
                   <label for="description" class="form-label">Description:</label>
-                  <textarea class="form-control" name="description" required></textarea>
+                  <textarea class="form-control" name="description" id="descInput" value="" required></textarea>
                 </div>
 
                 <div class="mb-3">
                   <label for="price" class="form-label">Price:</label>
-                  <input type="number" class="form-control" name="price" step="0.01" required>
+                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01" value="" required>
                 </div>
 
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity:</label>
-                  <input type="number" class="form-control" name="quantity" required>
+                  <input type="number" class="form-control" id="quantityInput" name="quantity" value="" required>
                 </div>
 
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
-                  <select class="form-select" name="category" required>
+                  <select class="form-select" name="category" id="categoryInput" value="" required>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
@@ -312,7 +321,7 @@ $result1 = mysqli_query($mysqli, $sql);
 
                 <div class="mb-3">
                   <label for="status" class="form-label">Status:</label>
-                  <select class="form-select" name="status" required>
+                  <select class="form-select" name="status" id="statusInput" value="" required>
                     <option value="">-- Select Status --</option>
                     <option value="in stock">Active</option>
                     <option value="out of stock">In active</option>
@@ -328,8 +337,6 @@ $result1 = mysqli_query($mysqli, $sql);
           </div>
         </div>
       </div>
-
-
 
     </div>
   </div>
