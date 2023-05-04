@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 
 if (isset($_GET['id'])) {
 
@@ -25,22 +25,22 @@ if (isset($_GET['id'])) {
   $quantity = $resultData['quantity'];
   $category = $resultData['category'];
   $status = $resultData['status'];
-}else{
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $quantity = $_POST['quantity'];
-    $category = $_POST['category'];
-    $status = $_POST['status'];
-  
-    $sql = "UPDATE products SET name='$name', description='$description', price='$price', quantity='$quantity', category='$category', status='$status' WHERE id='$id'";
-  
-    if ($mysqli->query($sql) === TRUE) {
-      echo "Product updated successfully";
-    } else {
-      echo "Error updating product: " . $mysqli->error;
-    }
-  }
-}
+}/*else{
+  if (isset($_POST['update']))
+
+
+$id = $_POST['id'];
+$name = $_POST['name'];
+$description = $_POST['description'];
+$price = $_POST['price'];
+$quantity = $_POST['quantity'];
+$category = $_POST['category'];
+$status = $_POST['status'];
+
+$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
+
+mysqli_query($mysqli, "UPDATE products SET name='$name', description='$description', price='$price',
+              quantity='$quantity', category='$category', status='$status' WHERE id= $id")
+
+
+}*/

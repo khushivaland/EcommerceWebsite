@@ -41,8 +41,10 @@ $result1 = mysqli_query($mysqli, $sql);
         if (xhttp.status != 200) { // analyze HTTP status of the response
           alert(`Error ${xhttp.status}: ${xhttp.statusText}`); // e.g. 404: Not Found
         } else { // show the result
-          var jsonData = xhttp.response;
+          var jsonData = xhttp.response;    
           var dataObj = JSON.parse(jsonData);
+          var idInput = document.getElementById("idInput");
+          idInput.value = dataObj.id;
          var nameInput = document.getElementById("nameInput");
           nameInput.value = dataObj.name;
           var descInput = document.getElementById("descInput");
@@ -62,6 +64,30 @@ $result1 = mysqli_query($mysqli, $sql);
         }
       };
     }
+    function openDeleteModal(id) {
+  // Set the ID of the product to be deleted in the confirmation button data attribute
+  document.querySelector("#confirmDeleteBtn").dataset.id = id;
+
+  // Show the delete confirmation dialog box
+  new bootstrap.Modal(document.querySelector("#deleteProductModal")).show();
+}
+
+function deleteProduct() {
+  // Get the ID of the product to be deleted from the confirmation button data attribute
+  const productId = document.querySelector("#confirmDeleteBtn").dataset.id;
+
+  // Send an AJAX request to delete the product with the specified ID
+  loadDoc("delete.php", "POST", `id=${id}`, function(response) {
+    if (response.success) {
+      // If the product was successfully deleted, update the product table
+      const deletedRow = document.querySelector(`#product-${id}`);
+      deletedRow.parentNode.removeChild(deletedRow);
+
+      // Hide the delete confirmation dialog box
+      new bootstrap.Modal(document.querySelector("#deleteProductModal")).hide();
+    } 
+  });
+}
 
     
 
@@ -148,6 +174,7 @@ $result1 = mysqli_query($mysqli, $sql);
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
                   <select class="form-select" name="category" required>
+                  <option value="">-- Select Category --</option>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
@@ -226,33 +253,37 @@ $result1 = mysqli_query($mysqli, $sql);
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editProductModal">Edit Product</h5>
+
+
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" id="inputdata" method="POST">
+              <form action="update.php" id="inputdata" method="POST">
+              <input type="hidden" class="form-control" id="idInput" name="id"  required>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
-                  <input type="text" class="form-control" id="nameInput" name="name" value='$name' required>
+                  <input type="text" class="form-control" id="nameInput" name="name"  required>
                 </div>
 
                 <div class="mb-3">
                   <label for="description" class="form-label">Description:</label>
-                  <textarea class="form-control" name="description" id="descInput" value='$description' required></textarea>
+                  <textarea class="form-control" name="description" id="descInput"  required></textarea>
                 </div>
 
                 <div class="mb-3">
                   <label for="price" class="form-label">Price:</label>
-                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01" value='$price' required>
+                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01"  required>
                 </div>
 
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity:</label>
-                  <input type="number" class="form-control" id="quantityInput" name="quantity" value='$quantity' required>
+                  <input type="number" class="form-control" id="quantityInput" name="quantity"  required>
                 </div>
 
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
-                  <select class="form-select" name="category" id="categoryInput" value='$category' required>
+                  <select class="form-select" name="category" id="categoryInput" required>
+                    <option value="">-- Select Category --</option>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
@@ -262,14 +293,14 @@ $result1 = mysqli_query($mysqli, $sql);
 
                 <div class="mb-3">
                   <label for="status" class="form-label">Status:</label>
-                  <select class="form-select" name="status" id="statusInput" value='$status' required>
+                  <select class="form-select" name="status" id="statusInput"  required>
                     <option value="">-- Select Status --</option>
                     <option value="in stock">Active</option>
                     <option value="out of stock">In active</option>
                   </select>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Edit</button>
+                  <button type="submit" name="update" class="btn btn-primary">Edit</button>
                   <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
@@ -280,15 +311,16 @@ $result1 = mysqli_query($mysqli, $sql);
       </div>
 
 
-      <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
+      <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editProductModal">Delete Product</h5>
+              <h5 class="modal-title" id="deleteProductModal">Delete Product</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" id="inputdata" method="POST">
+              <form action="delete.php" id="inputdata" method="POST">
+              <input type="hidden" class="form-control" id="idInput" name="id"  required>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
                   <input type="text" class="form-control" id="nameInput" name="name" value="" required>
@@ -312,6 +344,7 @@ $result1 = mysqli_query($mysqli, $sql);
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
                   <select class="form-select" name="category" id="categoryInput" value="" required>
+                  <option value="">-- Select Category --</option>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
