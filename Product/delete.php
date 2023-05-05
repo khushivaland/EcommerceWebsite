@@ -1,21 +1,30 @@
 
 <?php
+$mysqli = require dirname(__FILE__, 2) . "/common/data.php";
 
-// Check if the product ID is provided in the URL
-if (isset($_GET['id'])) {
-  $id = $_GET['id'];
 
-  // Build the SQL delete query
-  $query = "DELETE FROM products WHERE id=$id";
+if (isset($_GET["id"])) {
+  $id = $_GET["id"];
 
-  // Execute the query and check for errors
-  if (mysqli_query($conn, $query)) {
-    // Redirect to the product table page
-    header("Location: products.php");
-    exit();
+  
+  $sql = "DELETE FROM products WHERE id = ?";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param("i", $id);
+
+  
+  if ($stmt->execute()) {
+      echo "Product deleted successfully";
   } else {
-    // Display an error message
-    echo "Error deleting product: " . mysqli_error($conn);
+      echo "Error deleting product: " . $mysqli->error;
   }
+
+  
+  $stmt->close();
 }
 ?>
+
+
+
+
+
+

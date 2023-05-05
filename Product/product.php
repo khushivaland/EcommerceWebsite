@@ -27,7 +27,7 @@ $result1 = mysqli_query($mysqli, $sql);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="product.css">
   <title>Product</title>
-  <script type="text/javascript">
+  <script>
     function loadDoc(id) {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
@@ -64,32 +64,28 @@ $result1 = mysqli_query($mysqli, $sql);
         }
       };
     }
-    function openDeleteModal(id) {
-  // Set the ID of the product to be deleted in the confirmation button data attribute
-  document.querySelector("#confirmDeleteBtn").dataset.id = id;
+    function deleteProduct(id) {
+  // Load the product data into the delete confirmation modal
+  loadDoc(id, "#deleteProductModal");
 
-  // Show the delete confirmation dialog box
+  // Show the delete confirmation modal
   new bootstrap.Modal(document.querySelector("#deleteProductModal")).show();
+
+  // Add an onclick event to the delete button in the modal
+  document.querySelector("#deleteConfirmBtn").onclick = function() {
+    // Send a DELETE request to the server to delete the product
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+        // Display a success message or refresh the product list
+      }
+    };
+    xhttp.open("DELETE", "delete.php?id=" + id, true);
+    xhttp.send();
+  };
 }
 
-function deleteProduct() {
-  // Get the ID of the product to be deleted from the confirmation button data attribute
-  const productId = document.querySelector("#confirmDeleteBtn").dataset.id;
-
-  // Send an AJAX request to delete the product with the specified ID
-  loadDoc("delete.php", "POST", `id=${id}`, function(response) {
-    if (response.success) {
-      // If the product was successfully deleted, update the product table
-      const deletedRow = document.querySelector(`#product-${id}`);
-      deletedRow.parentNode.removeChild(deletedRow);
-
-      // Hide the delete confirmation dialog box
-      new bootstrap.Modal(document.querySelector("#deleteProductModal")).hide();
-    } 
-  });
-}
-
-    
 
   </script>
 </head>
@@ -236,10 +232,10 @@ function deleteProduct() {
 
               </td>
 
-              <td><button type="button" class="btn btn-danger btns" onClick="loadDoc(<?php echo $row['id']; ?>)" data-toggle="modal" data-target="#editProductModal">
-                
-                Delete
-              </button></td>
+              <td><button type="button" class="btn btn-danger btns" onClick="deleteProduct(id)" data-toggle="modal" data-target="#deleteProductModal">
+    Delete
+</button>
+</td>
           </tr>
 
         <?php
@@ -361,7 +357,7 @@ function deleteProduct() {
                   </select>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Delete</button>
+                  <button type="submit" id="deleteConfirmBtn" class="btn btn-primary">Delete</button>
                   <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
