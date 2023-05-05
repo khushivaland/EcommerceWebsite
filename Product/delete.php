@@ -14,6 +14,8 @@ if (isset($_GET["id"])) {
   
   if ($stmt->execute()) {
       echo "Product deleted successfully";
+      header('Location: product.php');
+      exit;
   } else {
       echo "Error deleting product: " . $mysqli->error;
   }

@@ -41,8 +41,8 @@ $result1 = mysqli_query($mysqli, $sql);
         if (xhttp.status != 200) { // analyze HTTP status of the response
           alert(`Error ${xhttp.status}: ${xhttp.statusText}`); // e.g. 404: Not Found
         } else { // show the result
-          var jsonData = xhttp.response;    
-          var dataObj = JSON.parse(jsonData);
+          var jsonData = xhttp.response;
+          var dataObj = JSON.parse(jsonData)[0];
           var idInput = document.getElementById("idInput");
           idInput.value = dataObj.id;
          var nameInput = document.getElementById("nameInput");
@@ -64,27 +64,72 @@ $result1 = mysqli_query($mysqli, $sql);
         }
       };
     }
-    function deleteProduct(id) {
-  // Load the product data into the delete confirmation modal
-  loadDoc(id, "#deleteProductModal");
-
-  // Show the delete confirmation modal
-  new bootstrap.Modal(document.querySelector("#deleteProductModal")).show();
-
-  // Add an onclick event to the delete button in the modal
-  document.querySelector("#deleteConfirmBtn").onclick = function() {
-    // Send a DELETE request to the server to delete the product
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
-        // Display a success message or refresh the product list
-      }
-    };
-    xhttp.open("DELETE", "delete.php?id=" + id, true);
-    xhttp.send();
+  
+function deleteProduct(id) {
+  var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this)
+        }
+      };
+      xhttp.open("GET", "delete.php?id=" + id, true);
+      xhttp.send();
+      xhttp.onload = function() {
+        if (xhttp.status != 200) { // analyze HTTP status of the response
+          alert(`Error ${xhttp.status}: ${xhttp.statusText}`); // e.g. 404: Not Found
+        } else { // show the result
+          var jsonData = xhttp.response; 
+          location.reload(true);    
+          //console.log("Product deleted successfully");
+  };
+}}
+/*function displayProduct(){
+  var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this)
+        }
+      };
+      xhttp.open("GET", "getproduct.php", true);
+      xhttp.send();
+      xhttp.onload = function() {
+        if (xhttp.status != 200) { 
+          alert(`Error ${xhttp.status}: ${xhttp.statusText}`); 
+        } else { // show the result
+          var jsonData = xhttp.response; 
+          location.reload(true);    
+        
   };
 }
+}*/
+
+function loadProducts() {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "getProduct.php");
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Parse the JSON response
+      var products = JSON.parse(xhr.responseText);
+
+      // Build the table rows
+      var rows = "";
+      products.forEach(function(product) {
+        rows += "<tr><td>" + product.id + "</td><td>" + product.name + "</td><td>" + product.description + "</td><td>" + product.price + "</td></tr>";
+      });
+
+      // Add the rows to the table body
+      document.querySelector("#product-table tbody").innerHTML = rows;
+    } else {
+      console.log("Error loading products");
+    }
+  };
+  xhr.send();
+}
+// Call loadProducts when the page is loaded
+window.addEventListener("load", loadProducts);
+
+// Alternatively, call loadProducts when a button is clicked
+document.getElementById("load-products-btn").addEventListener("click", loadProducts);
 
 
   </script>
@@ -108,7 +153,7 @@ $result1 = mysqli_query($mysqli, $sql);
           <li class="nav-item btnnn">
             <a class="nav-link active" href="#">about</a>
           </li>
-        </ul>
+        </ul>  
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
@@ -146,7 +191,7 @@ $result1 = mysqli_query($mysqli, $sql);
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="addproduct.php" method="POST">
+              <form action="addproduct.php" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
                   <input type="text" class="form-control" name="name" required>
@@ -197,7 +242,7 @@ $result1 = mysqli_query($mysqli, $sql);
         </div>
       </div>
 
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" id="product-table">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -214,7 +259,7 @@ $result1 = mysqli_query($mysqli, $sql);
         <tbody>
           <tr>
             <?php
-            while ($row = mysqli_fetch_assoc($result1)) {
+           while ($row = mysqli_fetch_assoc($result1)) {
             ?>
               <td><?php echo $row['id']; ?></td>
               <td><?php echo $row['name']; ?></td>
@@ -232,10 +277,7 @@ $result1 = mysqli_query($mysqli, $sql);
 
               </td>
 
-              <td><button type="button" class="btn btn-danger btns" onClick="deleteProduct(id)" data-toggle="modal" data-target="#deleteProductModal">
-    Delete
-</button>
-</td>
+              <td><button type="button" class="btn btn-danger btns" onClick="deleteProduct(<?php echo $row['id']; ?>)">Delete</button></td>
           </tr>
 
         <?php
@@ -297,7 +339,7 @@ $result1 = mysqli_query($mysqli, $sql);
                 </div>
                 <div class="modal-footer">
                   <button type="submit" name="update" class="btn btn-primary">Edit</button>
-                  <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
             </div>
@@ -307,65 +349,7 @@ $result1 = mysqli_query($mysqli, $sql);
       </div>
 
 
-      <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteProductModal">Delete Product</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form action="delete.php" id="inputdata" method="POST">
-              <input type="hidden" class="form-control" id="idInput" name="id"  required>
-                <div class="mb-3">
-                  <label for="name" class="form-label">Name:</label>
-                  <input type="text" class="form-control" id="nameInput" name="name" value="" required>
-                </div>
-
-                <div class="mb-3">
-                  <label for="description" class="form-label">Description:</label>
-                  <textarea class="form-control" name="description" id="descInput" value="" required></textarea>
-                </div>
-
-                <div class="mb-3">
-                  <label for="price" class="form-label">Price:</label>
-                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01" value="" required>
-                </div>
-
-                <div class="mb-3">
-                  <label for="quantity" class="form-label">Quantity:</label>
-                  <input type="number" class="form-control" id="quantityInput" name="quantity" value="" required>
-                </div>
-
-                <div class="mb-3">
-                  <label for="category" class="form-label">Category:</label>
-                  <select class="form-select" name="category" id="categoryInput" value="" required>
-                  <option value="">-- Select Category --</option>
-                    <option value="stetionary">Stetionary</option>
-                    <option value="electronic">Electronic</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="furniture">Furniture</option>
-                  </select>
-                </div>
-
-                <div class="mb-3">
-                  <label for="status" class="form-label">Status:</label>
-                  <select class="form-select" name="status" id="statusInput" value="" required>
-                    <option value="">-- Select Status --</option>
-                    <option value="in stock">Active</option>
-                    <option value="out of stock">In active</option>
-                  </select>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" id="deleteConfirmBtn" class="btn btn-primary">Delete</button>
-                  <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </form>
-            </div>
-
-          </div>
-        </div>
-      </div>
+    
 
     </div>
   </div>
