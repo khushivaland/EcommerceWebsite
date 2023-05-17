@@ -112,26 +112,48 @@ function loadProducts() {
 }
 
 
-$(document).ready(function() {
-            // Load data using AJAX
-            $.ajax({
-                url: "getProduct.php",
-                type: "GET",
-                dataType: "json",
-                success: function(rows) {
-                    // Populate table with data
-                    $.each(rows, function(index, product) {
-                        var row = $("<tr>");
-                        row.append($("<td>").text(product.id));
-                        row.append($("<td>").text(product.name));
-                        row.append($("<td>").text(product.description));
-                        row.append($("<td>").text(product.price));
-                        row.append($("<td>").text(product.quantity));
-                        row.append($("<td>").text(product.category));
-                        row.append($("<td>").text(product.status));
-                        
+        function displayProduct() { debugger
+                  var xhr = new XMLHttpRequest();
+                   xhr.open("GET", "getProduct.php");
+                  xhr.onload = function() {
+                   if (xhr.status === 200) {
+      
+         
+                     var product = JSON.parse(xhr.responseText);
+                     var tableBody = document.getElementById('table-body');
 
-                        var button = document.createElement("button");
+                      for (var i = 0; i < product.length; i++) {
+                      var row = document.createElement('tr');
+    
+                      var idCell = document.createElement('td');
+                      idCell.textContent = product[i].id;
+                      row.appendChild(idCell);
+    
+                      var nameCell = document.createElement('td');
+                      nameCell.textContent = product[i].name;
+                      row.appendChild(nameCell);
+    
+                       var descriptionCell = document.createElement('td');
+                       descriptionCell.textContent = product[i].description;
+                       row.appendChild(descriptionCell);
+
+                       var priceCell = document.createElement('td');
+                       priceCell.textContent = product[i].price;
+                       row.appendChild(priceCell);
+ 
+                       var quantityCell = document.createElement('td');
+                       quantityCell.textContent = product[i].quantity;
+                       row.appendChild(quantityCell);
+
+                       var categoryCell = document.createElement('td');
+                       categoryCell.textContent = product[i].category;
+                       row.appendChild(categoryCell);
+
+                       var statusCell = document.createElement('td');
+                       statusCell.textContent = product[i].status;
+                       row.appendChild(statusCell);
+
+                       var button = document.createElement("button");
                         button.type = "button";
                         button.className = "btn btn-primary btns";
                         button.onclick = function() {
@@ -141,9 +163,9 @@ $(document).ready(function() {
                        button.dataset.target = "#editProductModal";
                        button.innerText = "Edit";
 
-            
-                       var container = document.getElementById("product-table");
-                       container.appendChild(button);
+                       var tdata = document.createElement('td');
+                       tdata.appendChild(button);
+                       row.appendChild(tdata);
 
                        var button1 = document.createElement("button");
                         button1.type = "button";
@@ -151,39 +173,31 @@ $(document).ready(function() {
                         button1.onclick = function() {
                           deleteProduct(product.id);
                          };
+
+                         var container = document.getElementById("product-table");
+                       row.appendChild(button1);
                        
                        button1.innerText = "Delete";
-
-            
-                       var container = document.getElementById("product-table");
-                       container.appendChild(button1);
                        
-                       row.append($('<td>').append(button));
-                       row.append($('<td>').append(button1));
-                         $("#product-table").append(row);
+    
+                       tableBody.appendChild(row);
 
 
-                       
-
+    }
+  }
+     else {
+      console.log("Error loading products");
+    }
+  };
+  xhr.send();
                         
-                    });
-                }
-            });
-        });
-
-
-
-// // Call loadProducts when the page is loaded
-//window.addEventListener("load", loadProducts);
-
-// // Alternatively, call loadProducts when a button is clicked
-//document.getElementById("load-products-btn").addEventListener("click", loadProducts);
+}
 
 
   </script>
 </head>
 
-<body>
+<body onload="displayProduct()">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Welcome!!</a>
@@ -304,7 +318,7 @@ $(document).ready(function() {
             <th scope="col">Delete</th>
           </tr>
         </thead>
-        <tbody id="data">
+        <tbody id="table-body">
          
         </tbody>
       </table>
