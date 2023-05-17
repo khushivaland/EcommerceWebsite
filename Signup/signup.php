@@ -15,7 +15,7 @@
 <body>
    <div class="cotainer">
     <div class="form-box">
-        <form action="../common/index.php" name="Formfill" method="POST" onsubmit="return validation() && StrengthChecker()">
+        <form action="../common/index.php" name="Formfill" method="POST" onsubmit="return validation()">
             <h1 class="heading">Sign-Up</h1>
             <p id="result"></p>
             <div class="input-box">

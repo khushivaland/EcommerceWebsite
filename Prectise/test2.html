@@ -7,7 +7,7 @@
     <title>Test2</title>
 <script>
 
-    function unique_minnum() { 
+    function unique_minnum() { debugger
         const numericText = document.getElementById('unique').value;
         //const numbers = numericText.split(" ").map(Number);
         const minNumber = Math.min.apply(null, numericText.split(""));
@@ -16,7 +16,7 @@
         document.getElementById('result').innerHTML=results;
     }
 
-    function unique_maxnum() { debugger
+    function unique_maxnum() { 
         const numericText = document.getElementById('unique').value;
         //const numbers = numericText.split(" ").map(Number);
         const maxNumber = Math.max.apply(null, numericText.split(""));;

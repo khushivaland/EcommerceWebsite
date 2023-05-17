@@ -27,6 +27,10 @@ $result1 = mysqli_query($mysqli, $sql);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="product.css">
   <title>Product</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+       
+    </script>
   <script>
     function loadDoc(id) {
       var xhttp = new XMLHttpRequest();
@@ -83,25 +87,6 @@ function deleteProduct(id) {
           //console.log("Product deleted successfully");
   };
 }}
-/*function displayProduct(){
-  var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this)
-        }
-      };
-      xhttp.open("GET", "getproduct.php", true);
-      xhttp.send();
-      xhttp.onload = function() {
-        if (xhttp.status != 200) { 
-          alert(`Error ${xhttp.status}: ${xhttp.statusText}`); 
-        } else { // show the result
-          var jsonData = xhttp.response; 
-          location.reload(true);    
-        
-  };
-}
-}*/
 
 function loadProducts() {
   var xhr = new XMLHttpRequest();
@@ -125,11 +110,74 @@ function loadProducts() {
   };
   xhr.send();
 }
-// Call loadProducts when the page is loaded
-window.addEventListener("load", loadProducts);
 
-// Alternatively, call loadProducts when a button is clicked
-document.getElementById("load-products-btn").addEventListener("click", loadProducts);
+
+$(document).ready(function() {
+            // Load data using AJAX
+            $.ajax({
+                url: "getProduct.php",
+                type: "GET",
+                dataType: "json",
+                success: function(rows) {
+                    // Populate table with data
+                    $.each(rows, function(index, product) {
+                        var row = $("<tr>");
+                        row.append($("<td>").text(product.id));
+                        row.append($("<td>").text(product.name));
+                        row.append($("<td>").text(product.description));
+                        row.append($("<td>").text(product.price));
+                        row.append($("<td>").text(product.quantity));
+                        row.append($("<td>").text(product.category));
+                        row.append($("<td>").text(product.status));
+                        
+
+                        var button = document.createElement("button");
+                        button.type = "button";
+                        button.className = "btn btn-primary btns";
+                        button.onclick = function() {
+                        loadDoc(product.id);
+                         };
+                       button.dataset.toggle = "modal";
+                       button.dataset.target = "#editProductModal";
+                       button.innerText = "Edit";
+
+            
+                       var container = document.getElementById("product-table");
+                       container.appendChild(button);
+
+                       var button1 = document.createElement("button");
+                        button1.type = "button";
+                        button1.className = "btn btn-danger btns";
+                        button1.onclick = function() {
+                          deleteProduct(product.id);
+                         };
+                       
+                       button1.innerText = "Delete";
+
+            
+                       var container = document.getElementById("product-table");
+                       container.appendChild(button1);
+                       
+                       row.append($('<td>').append(button));
+                       row.append($('<td>').append(button1));
+                         $("#product-table").append(row);
+
+
+                       
+
+                        
+                    });
+                }
+            });
+        });
+
+
+
+// // Call loadProducts when the page is loaded
+//window.addEventListener("load", loadProducts);
+
+// // Alternatively, call loadProducts when a button is clicked
+//document.getElementById("load-products-btn").addEventListener("click", loadProducts);
 
 
   </script>
@@ -256,34 +304,8 @@ document.getElementById("load-products-btn").addEventListener("click", loadProdu
             <th scope="col">Delete</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <?php
-           while ($row = mysqli_fetch_assoc($result1)) {
-            ?>
-              <td><?php echo $row['id']; ?></td>
-              <td><?php echo $row['name']; ?></td>
-              <td><?php echo $row['description']; ?></td>
-              <td><?php echo $row['price']; ?></td>
-              <td><?php echo $row['quantity']; ?></td>
-              <td><?php echo $row['category']; ?></td>
-              <td><?php echo $row['status']; ?></td>
-              <td>
-                <button type="button" class="btn btn-primary btns" onClick="loadDoc(<?php echo $row['id']; ?>)" data-toggle="modal" data-target="#editProductModal">
-                
-                  Edit
-                </button>
-                <!-- <a class="btn btn-primary" href="./getProduct.php?id=<?php echo $row['id']; ?>" role="button" >Edit</a> -->
-
-              </td>
-
-              <td><button type="button" class="btn btn-danger btns" onClick="deleteProduct(<?php echo $row['id']; ?>)">Delete</button></td>
-          </tr>
-
-        <?php
-            }
-        ?>
-
+        <tbody id="data">
+         
         </tbody>
       </table>
       <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">

@@ -1,0 +1,155 @@
+
+<script>
+    //DUPLICATE VALUES
+
+    // const arr = [1,2,2,3,4,4,5,5,6];debugger
+    // const duplicateval = arr.filter((ele,index,num) => arr.indexOf(ele) !== index);
+    // console.log(duplicateval);
+
+    
+    // POLINDROME NUMBER
+
+// function polindrome(){
+// var values = document.getElementById('values').value;
+// values = values.toString();  //toString() and toLocaleLowerCase() both are use
+// const pelindromevalue = (str) => {
+//  var res = str.split("").reverse().join("");
+//  if(res === values){
+//    return document.getElementById('result').innerHTML = `Polindrome Number`;
+//  }
+//  else{
+//    return document.getElementById('result').innerHTML = `Not Polindrome Number`;
+//  }
+// }
+// document.getElementById('result').innerHTML= (pelindromevalue(values));
+// }
+
+// program to check if the string is palindrome or not
+
+// function checkPalindrome(string) {
+
+//     // find the length of a string
+//     const len = string.length;
+
+//     // loop through half of the string
+//     for (let i = 0; i < len / 2; i++) {
+
+//         // check if first and last string are same
+//         if (string[i] !== string[len - 1 - i]) {
+//             return 'It is not a palindrome';
+//         }
+//     }
+//     return 'It is a palindrome';
+// }
+
+// // take input
+// const string = prompt('Enter a string: ');
+
+// // call the function
+// const value = checkPalindrome(string);
+
+// console.log(value);
+
+
+// PRIME NUMBER
+
+function primenum(){
+    var values = document.getElementById('values').value;
+    const val = parseInt(values);
+    if(val % 2 === 0){
+      document.getElementById('result').innerHTML= `${val} is not prime number `;
+    }else{
+        document.getElementById('result').innerHTML= `${val} is prime number `;
+
+    }
+   
+}
+
+function isPrime(number) {
+  if (number <= 1) {
+    return false;
+  }
+
+  for (let i = 2; i < number; i++) {
+    if (number % i === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// Test the function
+console.log(isPrime(1));  // true
+console.log(isPrime(2)); // false
+
+
+
+// // FACTORIAL NUMBER
+// function factorial(){
+// const values = document.getElementById('values').value;
+// let fact = 1;
+// if(values < 0){
+//     const res = `${values} is not possible`;
+//     document.getElementById('result').innerHTML = res;
+// }else{
+//     for(let i = 1; i <=values; i++){
+//         fact = fact * i;
+//     }
+//     const res = `${values} factorial is a ${fact} `; 
+//     document.getElementById('result').innerHTML = res;
+// }
+// }
+
+// CALCULATOR 
+// function add(){
+// let num1 = parseFloat(document.getElementById('values1').value);
+// let num2 = parseFloat(document.getElementById('values2').value);
+// let result = num1 + num2;
+// document.getElementById('result').innerHTML = `result is ${result}`;
+// }
+// function subtract(){
+//     let num1 = parseFloat(document.getElementById('values1').value);
+//     let num2 = parseFloat(document.getElementById('values2').value);
+//     let result = num1 - num2;
+//     document.getElementById('result').innerHTML = `result is ${result}`;
+// }
+// function multiply(){
+//     let num1 = parseFloat(document.getElementById('values1').value);
+//     let num2 = parseFloat(document.getElementById('values2').value);
+//     let result = num1 * num2;
+//     document.getElementById('result').innerHTML = `result is ${result}`;
+// }
+// function divide(){
+//     let num1 = parseFloat(document.getElementById('values1').value);
+//     let num2 = parseFloat(document.getElementById('values2').value);
+//     let result = num1 / num2;
+//     document.getElementById('result').innerHTML = `result is ${result}`;
+// }
+
+// UNIQUE STRING 
+// function uniqueVal(){
+//     var values = document.getElementById('values').value;
+//     var uniq = [...new Set(values)];
+//     let uniqNum =[...new Set(values.replace(/[0-9]/g, ""))];
+//     let uniqStr = [...new Set(values.replace(/[a-zA-Z]/g, ""))]
+//     //return {uniqStr, uniqNum};
+//     document.getElementById('result').innerHTML = uniq;
+//     document.getElementById('result1').innerHTML = uniqStr;
+//     document.getElementById('result2').innerHTML = uniqNum;
+// }
+// //document.getElementById('result').innerHTML = uniq;
+
+
+</script>
+ <body>
+    <input type="text" id="values" placeholder="Enter a number..."><br />
+    <!-- <input type="text" id="values2" placeholder="Enter a second number..."><br /><br /> -->
+    <button type="button" onClick="primenum()" >Add</button>
+    <!-- <button type="button" onClick="subtract()" >subtract</button>
+    <button type="button" onClick="multiply()" >multiply</button>
+    <button type="button" onClick="divide()" >divide</button> -->
+    <h4 id="result"></h4>
+    <h4 id="result1"></h4>
+    <h4 id="result2"></h4>
+</body> 

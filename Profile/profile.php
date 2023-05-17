@@ -57,7 +57,7 @@ if(isset($_SESSION['user_id'])) {
   $query = "SELECT * FROM user WHERE user_id = $user_id";
   $result1 = $mysqli->query($query);
   $user = $result1->fetch_assoc(); 
-}
+  }
 
 }
 }
