@@ -174,8 +174,9 @@ function loadProducts() {
                           deleteProduct(product.id);
                          };
 
-                         var container = document.getElementById("product-table");
-                       row.appendChild(button1);
+                       var tdata1 = document.createElement('td');
+                       tdata1.appendChild(button1);
+                       row.appendChild(tdata1);
                        
                        button1.innerText = "Delete";
                        

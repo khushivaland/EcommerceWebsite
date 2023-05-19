@@ -1,36 +1,3 @@
-let timeout;
-let password = document.getElementById('PassEntry');
-let strengthBadge = document.getElementById('result');
-let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
-let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))')
-
-
-function StrengthChecker(PasswordParameter) {debugger
-    if(strongPassword.test(PasswordParameter)) {
-        document.getElementById("result").innerHTML="At least one Upper and one lower letter and one number";
-    } else if(mediumPassword.test(PasswordParameter)) {
-        document.getElementById("result").innerHTML="password is medium add some character and number";
-    } else {
-        document.getElementById("result").innerHTML=" password is weak please Add strong password";
-    }
-}
-
-password.addEventListener("input", () => {
-    strengthBadge.style.display = 'block';
-    clearTimeout(timeout);
-    timeout = setTimeout(() => StrengthChecker(password.value), 500);
-    if(password.value.length !== 0) {
-        strengthBadge.style.display != 'block';
-    } else {
-        strengthBadge.style.display = 'none';
-    }
-});
-
-
-
-
-
-
 
 function validation(){
     if(document.Formfill.Username.value==""){
