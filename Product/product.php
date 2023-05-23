@@ -28,9 +28,9 @@ $result1 = mysqli_query($mysqli, $sql);
   <link rel="stylesheet" href="product.css">
   <title>Product</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-       
-    </script>
+  <script>
+
+  </script>
   <script>
     function loadDoc(id) {
       var xhttp = new XMLHttpRequest();
@@ -49,7 +49,7 @@ $result1 = mysqli_query($mysqli, $sql);
           var dataObj = JSON.parse(jsonData)[0];
           var idInput = document.getElementById("idInput");
           idInput.value = dataObj.id;
-         var nameInput = document.getElementById("nameInput");
+          var nameInput = document.getElementById("nameInput");
           nameInput.value = dataObj.name;
           var descInput = document.getElementById("descInput");
           descInput.value = dataObj.description;
@@ -63,14 +63,14 @@ $result1 = mysqli_query($mysqli, $sql);
           statusInput.value = dataObj.status;
           //console.log(xhttp.response)
           new bootstrap.Modal(document.querySelector("#editProductModal")).show();
-          
+
 
         }
       };
     }
-  
-function deleteProduct(id) {
-  var xhttp = new XMLHttpRequest();
+
+    function deleteProduct(id) {
+      var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           console.log(this)
@@ -82,119 +82,146 @@ function deleteProduct(id) {
         if (xhttp.status != 200) { // analyze HTTP status of the response
           alert(`Error ${xhttp.status}: ${xhttp.statusText}`); // e.g. 404: Not Found
         } else { // show the result
-          var jsonData = xhttp.response; 
-          location.reload(true);    
+          var jsonData = xhttp.response;
+          location.reload(true);
           //console.log("Product deleted successfully");
-  };
-}}
+        };
+      }
+    }
 
-function loadProducts() {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "getProduct.php");
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // Parse the JSON response
-      var products = JSON.parse(xhr.responseText);
+    function loadProducts() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "getProduct.php");
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // Parse the JSON response
+          var products = JSON.parse(xhr.responseText);
 
-      // Build the table rows
-      var rows = "";
-      products.forEach(function(product) {
-        rows += "<tr><td>" + product.id + "</td><td>" + product.name + "</td><td>" + product.description + "</td><td>" + product.price + "</td></tr>";
+          // Build the table rows
+          var rows = "";
+          products.forEach(function(product) {
+            rows += "<tr><td>" + product.id + "</td><td>" + product.name + "</td><td>" + product.description + "</td><td>" + product.price + "</td></tr>";
+          });
+
+          // Add the rows to the table body
+          document.querySelector("#product-table tbody").innerHTML = rows;
+        } else {
+          console.log("Error loading products");
+        }
+      };
+      xhr.send();
+    }
+
+    var currentPage = 1;
+    var itemsPerPage = 5;
+
+    function displayProduct() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "getProduct.php");
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+
+
+          var productss = JSON.parse(xhr.responseText);
+          var tableBody = document.getElementById('table-body');
+
+          for (var i = 0; i < productss.length; i++) {
+
+            var productId = productss[i].id;
+            var row = document.createElement('tr');
+
+            var idCell = document.createElement('td');
+            idCell.textContent = productId;
+            row.appendChild(idCell);
+
+            var nameCell = document.createElement('td');
+            nameCell.textContent = productss[i].name;
+            row.appendChild(nameCell);
+
+            var descriptionCell = document.createElement('td');
+            descriptionCell.textContent = productss[i].description;
+            row.appendChild(descriptionCell);
+
+            var priceCell = document.createElement('td');
+            priceCell.textContent = productss[i].price;
+            row.appendChild(priceCell);
+
+            var quantityCell = document.createElement('td');
+            quantityCell.textContent = productss[i].quantity;
+            row.appendChild(quantityCell);
+
+            var categoryCell = document.createElement('td');
+            categoryCell.textContent = productss[i].category;
+            row.appendChild(categoryCell);
+
+            var statusCell = document.createElement('td');
+            statusCell.textContent = productss[i].status;
+            row.appendChild(statusCell);
+
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-primary btns";
+            button.onclick = (function(id) {
+              return function() {
+                loadDoc(id);
+              };
+            })(productId);
+            button.dataset.toggle = "modal";
+            button.dataset.target = "#editProductModal";
+            button.innerText = "Edit";
+
+            var tdata = document.createElement('td');
+            tdata.appendChild(button);
+            row.appendChild(tdata);
+
+            var button1 = document.createElement("button");
+            button1.type = "button";
+            button1.className = "btn btn-danger btns";
+            button1.onclick = (function(id) {
+              return function() {
+                deleteProduct(id);
+              };
+            })(productId);
+
+            button1.innerText = "Delete";
+
+            var tdata1 = document.createElement('td');
+            tdata1.appendChild(button1);
+            row.appendChild(tdata1);
+
+
+            tableBody.appendChild(row);
+
+          }
+        } else {
+          console.log("Error loading products");
+        }
+      };
+      xhr.send();
+
+    }
+    $(document).ready(function() {
+      function hideLoading() {
+        $("#loading").fadeOut('slow');
+      };
+      $("#paginate li:first").css({
+        'color': '#FF0084',
+        'border': 'none'
       });
-
-      // Add the rows to the table body
-      document.querySelector("#product-table tbody").innerHTML = rows;
-    } else {
-      console.log("Error loading products");
-    }
-  };
-  xhr.send();
-}
-
-
-        function displayProduct() { debugger
-                  var xhr = new XMLHttpRequest();
-                   xhr.open("GET", "getProduct.php");
-                  xhr.onload = function() {
-                   if (xhr.status === 200) {
-      
-         
-                     var product = JSON.parse(xhr.responseText);
-                     var tableBody = document.getElementById('table-body');
-
-                      for (var i = 0; i < product.length; i++) {
-                      var row = document.createElement('tr');
-    
-                      var idCell = document.createElement('td');
-                      idCell.textContent = product[i].id;
-                      row.appendChild(idCell);
-    
-                      var nameCell = document.createElement('td');
-                      nameCell.textContent = product[i].name;
-                      row.appendChild(nameCell);
-    
-                       var descriptionCell = document.createElement('td');
-                       descriptionCell.textContent = product[i].description;
-                       row.appendChild(descriptionCell);
-
-                       var priceCell = document.createElement('td');
-                       priceCell.textContent = product[i].price;
-                       row.appendChild(priceCell);
- 
-                       var quantityCell = document.createElement('td');
-                       quantityCell.textContent = product[i].quantity;
-                       row.appendChild(quantityCell);
-
-                       var categoryCell = document.createElement('td');
-                       categoryCell.textContent = product[i].category;
-                       row.appendChild(categoryCell);
-
-                       var statusCell = document.createElement('td');
-                       statusCell.textContent = product[i].status;
-                       row.appendChild(statusCell);
-
-                       var button = document.createElement("button");
-                        button.type = "button";
-                        button.className = "btn btn-primary btns";
-                        button.onclick = function() {
-                        loadDoc(product.id);
-                         };
-                       button.dataset.toggle = "modal";
-                       button.dataset.target = "#editProductModal";
-                       button.innerText = "Edit";
-
-                       var tdata = document.createElement('td');
-                       tdata.appendChild(button);
-                       row.appendChild(tdata);
-
-                       var button1 = document.createElement("button");
-                        button1.type = "button";
-                        button1.className = "btn btn-danger btns";
-                        button1.onclick = function() {
-                          deleteProduct(product.id);
-                         };
-
-                       var tdata1 = document.createElement('td');
-                       tdata1.appendChild(button1);
-                       row.appendChild(tdata1);
-                       
-                       button1.innerText = "Delete";
-                       
-    
-                       tableBody.appendChild(row);
-
-
-    }
-  }
-     else {
-      console.log("Error loading products");
-    }
-  };
-  xhr.send();
-                        
-}
-
-
+      $("#content_container").load("getproduct.php?page=1", hideLoading());
+      $("#paginate li").click(function() {
+        $("#paginate li").css({
+          'border': 'solid #dddddd 1px',
+          'color': '#0063DC'
+        });
+        $(this).css({
+          'color': '#FF0084',
+          'border': 'none'
+        });
+        var page_num = this.id;
+        $("#content_container").load("getproduct.php?page=" + page_num, hideLoading());
+      });
+    });
   </script>
 </head>
 
@@ -216,7 +243,7 @@ function loadProducts() {
           <li class="nav-item btnnn">
             <a class="nav-link active" href="#">about</a>
           </li>
-        </ul>  
+        </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
@@ -241,7 +268,6 @@ function loadProducts() {
   <div class="container">
     <h3>Product</h3>
     <div class="table-responsive">
-      <!-- Button to trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
         Add Product
       </button>
@@ -278,7 +304,7 @@ function loadProducts() {
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
                   <select class="form-select" name="category" required>
-                  <option value="">-- Select Category --</option>
+                    <option value="">-- Select Category --</option>
                     <option value="stetionary">Stetionary</option>
                     <option value="electronic">Electronic</option>
                     <option value="clothing">Clothing</option>
@@ -320,9 +346,61 @@ function loadProducts() {
           </tr>
         </thead>
         <tbody id="table-body">
-         
         </tbody>
-      </table>
+      <!-- </table><?php
+      include("index.php");
+      ?>
+      
+      $per_page = 5;
+      <div class="pagination">
+        <ul id="paginate">
+          <?php
+          //for ($i = 1; $i <= $pages; $i++) {
+            //echo '<li id="' . $i . '">' . $i . '</li>';
+          //}
+          ?>
+        </ul>
+      </div> -->
+      <div class="container">	
+	<?php
+	$per_page = 2;
+	$sql = "SELECT * FROM `products`";
+	$result = mysqli_query($mysqli, $sql);
+	$count = mysqli_num_rows($result);
+	$pages = ceil($count/$per_page)
+	?>		
+	<div id="content_container"></div>
+	<div class="pagination">
+		<ul id="paginate">
+			<?php		
+			for($i=1; $i<=$pages; $i++)	{
+				echo '<li id="'.$i.'">'.$i.'</li>';
+			}
+			?>
+		</ul>
+	</div>
+</div>
+
+      <!-- <div id="paginations">
+      <nav aria-label="Page navigation example">
+      <ul class="pagination pagination-lg justify-content-end">
+       <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+       </li>
+       <li class="page-item"><a class="page-link" href="#">1</a></li>
+       <li class="page-item"><a class="page-link" href="#">2</a></li>
+       <li class="page-item"><a class="page-link" href="#">3</a></li>
+       <li class="page-item">
+       <a class="page-link" href="#" aria-label="Next">
+       <span aria-hidden="true">&raquo;</span>
+       </a>
+       </li>
+       </ul>
+       </nav>
+      </div> -->
+
       <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -334,25 +412,25 @@ function loadProducts() {
             </div>
             <div class="modal-body">
               <form action="update.php" id="inputdata" method="POST">
-              <input type="hidden" class="form-control" id="idInput" name="id"  required>
+                <input type="hidden" class="form-control" id="idInput" name="id" required>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
-                  <input type="text" class="form-control" id="nameInput" name="name"  required>
+                  <input type="text" class="form-control" id="nameInput" name="name" required>
                 </div>
 
                 <div class="mb-3">
                   <label for="description" class="form-label">Description:</label>
-                  <textarea class="form-control" name="description" id="descInput"  required></textarea>
+                  <textarea class="form-control" name="description" id="descInput" required></textarea>
                 </div>
 
                 <div class="mb-3">
                   <label for="price" class="form-label">Price:</label>
-                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01"  required>
+                  <input type="number" class="form-control" id="priceInput" name="price" step="0.01" required>
                 </div>
 
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity:</label>
-                  <input type="number" class="form-control" id="quantityInput" name="quantity"  required>
+                  <input type="number" class="form-control" id="quantityInput" name="quantity" required>
                 </div>
 
                 <div class="mb-3">
@@ -368,7 +446,7 @@ function loadProducts() {
 
                 <div class="mb-3">
                   <label for="status" class="form-label">Status:</label>
-                  <select class="form-select" name="status" id="statusInput"  required>
+                  <select class="form-select" name="status" id="statusInput" required>
                     <option value="">-- Select Status --</option>
                     <option value="in stock">Active</option>
                     <option value="out of stock">In active</option>
@@ -386,7 +464,7 @@ function loadProducts() {
       </div>
 
 
-    
+
 
     </div>
   </div>
