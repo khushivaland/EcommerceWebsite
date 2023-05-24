@@ -112,18 +112,19 @@ $result1 = mysqli_query($mysqli, $sql);
       xhr.send();
     }
 
-    var currentPage = 1;
-    var itemsPerPage = 5;
 
-    function displayProduct() {
+
+    function displayProduct(id) {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", "getProduct.php");
+      var url = id ? "getProduct.php?page_id="+id : "getProduct.php";
+      xhr.open("GET", url);
       xhr.onload = function() {
         if (xhr.status === 200) {
 
 
           var productss = JSON.parse(xhr.responseText);
           var tableBody = document.getElementById('table-body');
+          tableBody.innerHTML = "";
 
           for (var i = 0; i < productss.length; i++) {
 
@@ -200,32 +201,39 @@ $result1 = mysqli_query($mysqli, $sql);
       xhr.send();
 
     }
-    $(document).ready(function() {
-      function hideLoading() {
-        $("#loading").fadeOut('slow');
-      };
-      $("#paginate li:first").css({
-        'color': '#FF0084',
-        'border': 'none'
-      });
-      $("#content_container").load("getproduct.php?page=1", hideLoading());
-      $("#paginate li").click(function() {
-        $("#paginate li").css({
-          'border': 'solid #dddddd 1px',
-          'color': '#0063DC'
-        });
-        $(this).css({
-          'color': '#FF0084',
-          'border': 'none'
-        });
-        var page_num = this.id;
-        $("#content_container").load("getproduct.php?page=" + page_num, hideLoading());
-      });
-    });
+
+    function creatpage() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "getdata.php");
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+
+
+          var totalRecord = xhr.responseText;
+          var list = document.getElementById('pageing');
+          for (let index = 0; index < totalRecord; index++) {
+            var row = document.createElement('li');
+            row.className = "page-item";
+
+            var aTag = document.createElement('a');
+            aTag.className = "page-link";
+            aTag.onclick= function(){displayProduct(index)}
+
+            aTag.textContent = index + 1;
+
+            row.appendChild(aTag);
+            list.appendChild(row);
+
+          }
+        }
+      }
+      xhr.send();
+
+    }
   </script>
 </head>
 
-<body onload="displayProduct()">
+<body onload="displayProduct();creatpage()">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Welcome!!</a>
@@ -347,59 +355,14 @@ $result1 = mysqli_query($mysqli, $sql);
         </thead>
         <tbody id="table-body">
         </tbody>
-      <!-- </table><?php
-      include("index.php");
-      ?>
+      </table>
       
-      $per_page = 5;
-      <div class="pagination">
-        <ul id="paginate">
-          <?php
-          //for ($i = 1; $i <= $pages; $i++) {
-            //echo '<li id="' . $i . '">' . $i . '</li>';
-          //}
-          ?>
-        </ul>
-      </div> -->
-      <div class="container">	
-	<?php
-	$per_page = 2;
-	$sql = "SELECT * FROM `products`";
-	$result = mysqli_query($mysqli, $sql);
-	$count = mysqli_num_rows($result);
-	$pages = ceil($count/$per_page)
-	?>		
-	<div id="content_container"></div>
-	<div class="pagination">
-		<ul id="paginate">
-			<?php		
-			for($i=1; $i<=$pages; $i++)	{
-				echo '<li id="'.$i.'">'.$i.'</li>';
-			}
-			?>
-		</ul>
-	</div>
-</div>
-
-      <!-- <div id="paginations">
       <nav aria-label="Page navigation example">
-      <ul class="pagination pagination-lg justify-content-end">
-       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-       <a class="page-link" href="#" aria-label="Next">
-       <span aria-hidden="true">&raquo;</span>
-       </a>
-       </li>
-       </ul>
-       </nav>
-      </div> -->
+        <ul class="pagination" id="pageing">
+          
+        </ul>
+      </nav>
+
 
       <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
