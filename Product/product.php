@@ -202,7 +202,7 @@ $result1 = mysqli_query($mysqli, $sql);
 
     }
 
-    function creatpage() {
+    function createpage() {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", "getdata.php");
       xhr.onload = function() {
@@ -233,7 +233,7 @@ $result1 = mysqli_query($mysqli, $sql);
   </script>
 </head>
 
-<body onload="displayProduct();creatpage()">
+<body onload="displayProduct();createpage()">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Welcome!!</a>
